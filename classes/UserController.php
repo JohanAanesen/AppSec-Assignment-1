@@ -23,6 +23,7 @@ class UserController extends ITable {
 				if ( $user['loginAttempts'] >= 5 ) {
 					// Prompt to the user that the account has been locked.
 					SessionManager::set_flashdata( 'error_msg', 'Account is locked. Too many failed login attempts. Contact an admin to unlock account.' );
+					Logger::write( sprintf( 'Attempt on logging in to locked account: %s', $username ), Logger::ERROR );
 					return false;
 				}
 
@@ -38,6 +39,7 @@ class UserController extends ITable {
 					unset( $user['loginAttempts'] );
 					SessionManager::set_flashdata( 'success_msg', 'Login successful!' );
 					SessionManager::set_userdata( 'user_info', $user );
+					Logger::write( sprintf( "User \"%s\" has successfully logged in.", $username ), Logger::SUCCESS );
 					return true;
 
 				} else {
@@ -48,17 +50,20 @@ class UserController extends ITable {
 					$stmt->bindParam( ':username', $username, PDO::PARAM_STR );
 					$stmt->execute();
 
-					// Set flash data with message
+					// Set flash and log data with message
 					SessionManager::set_flashdata( 'warning_msg', 'Wrong credentials.' );
+					Logger::write( sprintf( "Password verification failed for user: \"%s\"", $username ), Logger::WARNING );
 					return false;
 				}
 
 			} else {
 				SessionManager::set_flashdata( 'error_msg', 'Wrong credentials.' );
+				Logger::write( sprintf( "Could not find user \"%s\" in database.", $username ), Logger::ERROR );
 				return false;
 			}
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
 			return false;
 		}
 	}
@@ -78,13 +83,16 @@ class UserController extends ITable {
 			// Check if execution went through
 			if ( $stmt->execute() ) {
 				SessionManager::set_flashdata( 'success_msg', 'Account successfully created!' );
+				Logger::write( sprintf( 'New account created: (%s, %s)', $username, $email ), Logger::SUCCESS );
 				return true;
 			} else {
 				SessionManager::set_flashdata( 'error_msg', 'Could not create account!' );
+				Logger::write( sprintf( 'Attempt on creating account failed: (%s, %s)', $username, $email ), Logger::WARNING );
 				return false;
 			}
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
 			return false;
 		}
 	}
@@ -94,6 +102,7 @@ class UserController extends ITable {
 
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
 			return false;
 		}
 	}
@@ -103,6 +112,7 @@ class UserController extends ITable {
 
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
 			return false;
 		}
 	}
@@ -112,6 +122,7 @@ class UserController extends ITable {
 
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
 			return false;
 		}
 	}

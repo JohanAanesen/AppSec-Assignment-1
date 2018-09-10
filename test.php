@@ -1,6 +1,7 @@
 <?php
 
 require_once 'classes/Application.php';
+require_once 'classes/Logger.php';
 require_once 'classes/SessionManager.php';
 
 $app = new Application();

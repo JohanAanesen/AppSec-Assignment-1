@@ -48,7 +48,7 @@ class SessionManager {
 			session_start();
 		}
 
-		// Delete flashdata after every request
+		// Delete flash and log data after every request
 		self::delete_flashdata();
 	}
 

@@ -25,66 +25,9 @@
                             </th>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        <strong>
-                                            GENERAL
-                                        </strong>
-                                    </a>
-                                    <br>
-                                    <small>
-                                        Some random description for this shitty forum
-                                    </small>
-                                </td>
-                                <td>
-                                    2
-                                </td>
-                                <td>
-                                    2
-                                </td>
-                                <td>
-                                    <a href="#" class="mb-0">
-                                        <strong>
-                                            Lorem ipsum
-                                        </strong>
-                                    </a>
-
-                                    <small>by <a href="#">admin</a></small>
-                                    <br>
-                                    <small>07/09/2018 - 13:37</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        <strong>
-                                            PROGRAMMING
-                                        </strong>
-                                    </a>
-                                    <br>
-                                    <small>
-                                        Everything about programming
-                                    </small>
-                                </td>
-                                <td>
-                                    233
-                                </td>
-                                <td>
-                                    3534
-                                </td>
-                                <td>
-                                    <a href="#" class="mb-0">
-                                        <strong>
-                                            Why Go is shit for prototyping
-                                        </strong>
-                                    </a>
-
-                                    <small>by <a href="#">student</a></small>
-                                    <br>
-                                    <small>07/09/2018 - 13:37</small>
-                                </td>
-                            </tr>
+                            {% for forumTableRow in forumTableRows %}
+                            {% include "forumTableRow.html" %}
+                            {% endfor %}
                             </tbody>
                         </table>
                         <!-- /.table -->

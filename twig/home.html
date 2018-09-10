@@ -2,7 +2,222 @@
 {% block title %} Home {% endblock %}
 {% block content %}
 
-<p>heyo</p>
+<div class="row">
+    <div class="col-9">
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card border-dark">
+                    <div class="card-body p-0">
+
+                        <table class="table mb-0">
+                            <thead class="card-header bg-dark text-light">
+                            <th>
+                                FORUM
+                            </th>
+                            <th>
+                                TOPICS
+                            </th>
+                            <th>
+                                POSTS
+                            </th>
+                            <th>
+                                LAST POST
+                            </th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                        <strong>
+                                            GENERAL
+                                        </strong>
+                                    </a>
+                                    <br>
+                                    <small>
+                                        Some random description for this shitty forum
+                                    </small>
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                    <a href="#" class="mb-0">
+                                        <strong>
+                                            Lorem ipsum
+                                        </strong>
+                                    </a>
+
+                                    <small>by <a href="#">admin</a></small>
+                                    <br>
+                                    <small>07/09/2018 - 13:37</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                        <strong>
+                                            PROGRAMMING
+                                        </strong>
+                                    </a>
+                                    <br>
+                                    <small>
+                                        Everything about programming
+                                    </small>
+                                </td>
+                                <td>
+                                    233
+                                </td>
+                                <td>
+                                    3534
+                                </td>
+                                <td>
+                                    <a href="#" class="mb-0">
+                                        <strong>
+                                            Why Go is shit for prototyping
+                                        </strong>
+                                    </a>
+
+                                    <small>by <a href="#">student</a></small>
+                                    <br>
+                                    <small>07/09/2018 - 13:37</small>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- /.table -->
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card border-primary -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row mb-3">
+            <div class="col">
+
+                <div class="card">
+                    <h5 class="card-header">
+                        Why Go is shit for prototyping <small> - 07/09/2018 - 13:37</small>
+                    </h5>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>
+                                    <a href="#">
+                                        student
+                                    </a>
+                                </h4>
+
+                                <hr>
+
+                                <h5>Go is fucking shit for prototyping!</h5>
+
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus et iste iure omnis, provident quo repellendus sed temporibus! Dolor eligendi error facilis fuga, ipsa minima nisi quasi reiciendis sit voluptatum.
+                                </p>
+
+                                <img src="http://placehold.it/1920x1080?text=Go shit compiler" alt="" class="img-fluid">
+                            </div>
+                            <!-- /.col-12 -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.col-8 -->
+
+    <div class="col-3" id="sidebar">
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card border-dark">
+                    <h5 class="card-header bg-dark text-light">
+                        Sign in
+                    </h5>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form action="" method="post">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" name="username" id="username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" class="form-control">
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                                <label for="remember" class="form-check-label">Remember me</label>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-dark btn-block" name="signin" id="signin" type="submit">Sign in</button>
+                            </div>
+                            <!-- /.form-group -->
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card border-dark">
+                    <h5 class="card-header bg-dark text-light">
+                        Sign up
+                    </h5>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form action="" method="post">
+                            <div class="form-group">
+                                <label for="s_username">Username</label>
+                                <input type="text" name="s_username" id="s_username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="s_username">Email</label>
+                                <input type="email" name="s_email" id="s_email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="s_password">Password</label>
+                                <input type="password" name="s_password" id="s_password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="s_confirm_password">Confirm Password</label>
+                                <input type="password" name="s_confirm_password" id="s_confirm_password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-dark btn-block" name="s_signup" id="s_signup" type="submit">Sign up</button>
+                            </div>
+                            <!-- /.form-group -->
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.col-3 -->
+</div>
+<!-- /.row -->
 
 
 {% endblock content %}

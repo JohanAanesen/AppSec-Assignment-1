@@ -23,6 +23,7 @@ class Session {
 
 	public function __destruct() {
 		// TODO: Implement __destruct() method.
+		session_destroy();
 	}
 
 	public function set_userdata( $name, $value ) {
@@ -68,9 +69,7 @@ class Session {
 	}
 
 	public function unset_all() {
-		foreach ( $this->validTypes as $type ) {
-			unset( $_SESSION[$type] );
-		}
+		session_unset();
 	}
 
 }

@@ -1,5 +1,9 @@
 <?php
 
+if ( !class_exists( 'SessionManager' ) ) {
+	require_once 'classes/SessionManager.php';
+}
+
 /**
  * Class User
  */
@@ -28,7 +32,7 @@ class User extends ITable {
 
 			// DB fetch got an entry
 			if (sizeof($result) > 0) {
-				echo "ERROR: USERNAME TAKEN<br>";
+				SessionManager::set_flashdata( 'warning_msg', 'Username already taken!' );
 				return true;
 			}
 
@@ -45,7 +49,7 @@ class User extends ITable {
 	 */
 	private function validateUsername( $username ) {
 		if ( !isset( $username ) && empty( $username ) || !preg_match( "/^[\w]{3,20}$/i", $username ) ) {
-			echo "ERROR USERNAME<br>";
+			SessionManager::set_flashdata( 'warning_msg', 'Invalid username!' );
 			return false;
 		}
 
@@ -57,14 +61,8 @@ class User extends ITable {
 	 * @return bool
 	 */
 	private function validatePassword( $password ) {
-		if ( !isset( $password ) && empty( $password ) ) {
-
-			echo "ERROR PASSWORD<br>";
-			return false;
-		}
-
-		if (strlen( $password ) < 8) {
-			echo "ERROR: SHORT PASSWORD<br>";
+		if ( strlen( $password ) < 8 ) {
+			SessionManager::set_flashdata( 'warning_msg', 'Password too short. Minimum 8 character!' );
 			return false;
 		}
 
@@ -99,10 +97,10 @@ class User extends ITable {
 		}
 	}
 
-	public function login( $args ) {
+	public function login( $username, $password ) {
 		try {
 			$stmt = $this->db->prepare( "SELECT * FROM $this->table WHERE username=:username");
-			$stmt->bindParam( ':username', $args['username'], PDO::PARAM_STR);
+			$stmt->bindParam( ':username', $username, PDO::PARAM_STR);
 
 			$stmt->execute();
 			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
@@ -115,13 +113,13 @@ class User extends ITable {
 					return false;
 				}
 
-				if ( password_verify( $args['password'], $user['password'] ) ) {
+				if ( password_verify( $password, $user['password'] ) ) {
 					// TODO: Set login attempts to zero
 					$this->successfulLogin($user['username']);
 					return true;
 				} else {
 					// TODO: Increment login attempts
-					echo "WRONG PASSWORD<br>";
+					//echo "WRONG PASSWORD<br>";
 					$this->failedLogin($user['username'], $attempts);
 					return false;
 				}

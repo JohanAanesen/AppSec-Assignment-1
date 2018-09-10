@@ -21,24 +21,4 @@ abstract class ITable {
 		$this->table = $table;
 	}
 
-	/**
-	 * @param $args array
-	 */
-	public function create( $args ) {}
-
-	/**
-	 * @param $args array
-	 */
-	public function read( $args ) {}
-
-	/**
-	 * @param $args array
-	 */
-	public function update( $args ) {}
-
-	/**
-	 * @param $args array
-	 */
-	public function delete( $args ) {}
-
 }

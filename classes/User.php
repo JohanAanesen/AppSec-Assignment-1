@@ -44,7 +44,7 @@ class User extends ITable {
 	 * @return bool
 	 */
 	private function validateUsername( $username ) {
-		if ( !isset( $username) && empty( $username ) || !preg_match( "/^[\w]{3,20}$/i", $username ) ) {
+		if ( !isset( $username ) && empty( $username ) || !preg_match( "/^[\w]{3,20}$/i", $username ) ) {
 			echo "ERROR USERNAME<br>";
 			return false;
 		}
@@ -72,12 +72,31 @@ class User extends ITable {
 	}
 
 	private function validateEmail( $email ) {
-		if ( !isset( $email ) && empty( $email ) || !filter_var( $email, FILTER_SANITIZE_EMAIL ) ) {
-			echo "ERROR EMAIL<br>";
-			return false;
-		}
+		return filter_var( filter_var($email, FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL);
+	}
 
-		return true;
+	private function successfulLogin($username) {
+		try {
+			$stmt = $this->db->prepare("UPDATE $this->table SET loginAttempts=0 WHERE username=:username");
+			$stmt->bindParam(":username", $username, PDO::PARAM_STR);
+
+			$stmt->execute();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
+	private function failedLogin( $username, $attempts ) {
+		try {
+			$newAttempts = $attempts + 1;
+			$stmt = $this->db->prepare("UPDATE $this->table SET loginAttempts=:loginAttempts WHERE username=:username");
+			$stmt->bindParam(":loginAttempts", $newAttempts, PDO::PARAM_INT);
+			$stmt->bindParam(":username", $username, PDO::PARAM_STR);
+
+			$stmt->execute();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
 	}
 
 	public function login( $args ) {
@@ -88,14 +107,22 @@ class User extends ITable {
 			$stmt->execute();
 			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-			if ( sizeof( $result ) > 0 ) {
-				// TODO: Check login attempts
+			if ( sizeof( $result ) == 1 ) {
+				$user = $result[0];
+				$attempts = $user['loginAttempts'];
 
-				if ( password_verify( $args['password'], $result[0]['password'] ) ) {
+				if ($attempts >= 3) {
+					return false;
+				}
+
+				if ( password_verify( $args['password'], $user['password'] ) ) {
 					// TODO: Set login attempts to zero
+					$this->successfulLogin($user['username']);
 					return true;
 				} else {
 					// TODO: Increment login attempts
+					echo "WRONG PASSWORD<br>";
+					$this->failedLogin($user['username'], $attempts);
 					return false;
 				}
 			} else {
@@ -117,10 +144,6 @@ class User extends ITable {
 				return false;
 			}
 
-			$username = "";
-			$password = "";
-			$email = "";
-
 			if ( !$this->validateUsername( $args['username'] ) ) {
 				return false;
 			}
@@ -134,11 +157,11 @@ class User extends ITable {
 			}
 
 			$username = $args['username'];
-			$password = $args['password'];
 			$email = $args['email'];
+			$password = $args['password'];
 			$date = date("Y-m-d");
 
-			$stmt = $this->db->prepare( "INSERT INTO $this->table SET username=:username, password=:password, email=:email, dateJoined=:dateJoined");
+			$stmt = $this->db->prepare( "INSERT INTO $this->table SET username=:username, password=:password, email=:email, dateJoined=:dateJoined, loginAttempts=0");
 
 			$stmt->bindParam(":username", $username, PDO::PARAM_STR );
 			$stmt->bindParam(":password", $password, PDO::PARAM_STR );
@@ -152,6 +175,7 @@ class User extends ITable {
 		}
 	}
 
+	// TODO: Replace * with username, email, etc etc....
 	public function read( $args = array() ) {
 		try {
 			if ( array_key_exists( 'id', $args ) && !empty( $args['id'] ) ) {

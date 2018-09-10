@@ -25,6 +25,18 @@ class Session {
 		// TODO: Implement __destruct() method.
 	}
 
+	public function set_userdata( $name, $value ) {
+		$_SESSION[$name] = $value;
+
+		if (isset($_SESSION[$name]['password'])) {
+			unset($_SESSION[$name]['password']);
+		}
+	}
+
+	public function get_userdata( $name ) {
+		return $_SESSION[$name];
+	}
+
 	public function set_session($type, $message) {
 		if ( !in_array($type, $this->validTypes) ) {
 			return;

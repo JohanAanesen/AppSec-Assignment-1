@@ -8,7 +8,7 @@ $twig   = Server::requireTwig();
 
 
 echo $twig->render('home.html', array(
-    'title' => 'home'
+    'title' => 'Home'
 ));
 
 

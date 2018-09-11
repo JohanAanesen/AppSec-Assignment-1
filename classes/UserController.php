@@ -87,7 +87,7 @@ class UserController extends ITable {
 				return true;
 			} else {
 				SessionManager::set_flashdata( 'error_msg', 'Could not create account!' );
-				Logger::write( sprintf( 'Attempt on creating account failed: (%s, %s)', $username, $email ), Logger::WARNING );
+				Logger::write( sprintf( 'Attempt on creating account failed: (IP: %s, Username: %s, Email: %s)', $_SERVER['REMOTE_ADDR'], $username, $email ), Logger::WARNING );
 				return false;
 			}
 		} catch ( PDOException $e ) {

@@ -83,15 +83,15 @@ class Logger {
 				break;
 
 			case self::WARNING:
-				$date = sprintf( "%s WARNING ::", $date );
+				$date = sprintf( "%s (WARNING) ::", $date );
 				break;
 
 			case self::ERROR:
-				$date = sprintf( "%s **ERROR** ::", $date );
+				$date = sprintf( "%s   (ERROR) ::", $date );
 				break;
 
 			case self::DEBUG:
-				$date = sprintf( "%s DEBUG ::", $date );
+				$date = sprintf( "%s   (DEBUG) ::", $date );
 				break;
 
 			default:

@@ -6,6 +6,7 @@ $db     = Server::requireDatabase();
 $twig   = Server::requireTwig();
 
 
+$loggedIn = false;
 
 $test = null;
 $test[0] = new test();
@@ -16,6 +17,7 @@ $test[3] = new test();
 
 echo $twig->render('home.html', array(
     'title' => 'Home',
+    'loggedIn' => $loggedIn,
     'forumTableRows' => $test,
 ));
 

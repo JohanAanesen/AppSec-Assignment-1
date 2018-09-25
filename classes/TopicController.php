@@ -27,4 +27,6 @@ class TopicController extends ITable {
 
 	// TODO: Make create, read, update, delete functions for topics
 
+	// NOTE: This class need to check if category and user ID's exists
+
 }

@@ -30,4 +30,6 @@ class ReplyController extends ITable {
 
 	// TODO: Make create, read, update & delete functions for this class
 
+	// NOTE: This class need to check if topic & user ID's exists aswell
+
 }

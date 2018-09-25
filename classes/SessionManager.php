@@ -5,6 +5,10 @@
  */
 class SessionManager {
 
+	const SUCCESS 	= 'success_msg';
+	const WARNING 	= 'warning_msg';
+	const ERROR 	= 'error_msg';
+
 	/**
 	 * Starts session
 	 *
@@ -14,7 +18,7 @@ class SessionManager {
 	 * @param string $domain	- Session domain
 	 * @param bool   $secure	- If true session will be sent over secure connections
 	 */
-	static function session_start( $name, $limit = 0, $path = '/', $domain = null, $secure = null ) {
+	static function session_start( $name, $limit = 300, $path = '/', $domain = null, $secure = null ) {
 		// Set the cookie name before we start
 		session_name( $name . '_session' );
 
@@ -76,7 +80,7 @@ class SessionManager {
 	}
 
 	/**
-	 *Regenerates new session
+	 * Regenerates new session
 	 */
 	static function regenerate_session() {
 		// If this session is obsolete it means there already is a new id
@@ -133,21 +137,25 @@ class SessionManager {
 	/**
 	 * Sets flashdata to the session
 	 *
-	 * @param string	$name
-	 * @param string	$value
+	 * @param string $key   		- Key name
+	 * @param mixed  $value 		- Name
 	 */
-	static function set_flashdata( $name, $value ) {
-		$_SESSION['flash_data'][$name] = $value;
+	static function set_flashdata( $key, $value ) {
+		$_SESSION['flash_data'][$key] = $value;
 	}
 
 	/**
 	 * Retrieves flashdata if it is set in the session
 	 *
-	 * @param string $name
-	 * @return string|null
+	 * @param string $name			- Value name
+	 * @return array|string|null	- Return value
 	 */
-	static function get_flashdata( $name ) {
-		if ( isset( $_SESSION['flash_data'][$name] ) ) {
+	static function get_flashdata( $name = "" ) {
+		if ( isset( $_SESSION['flash_data'] ) && empty( $name ) ) {
+			return $_SESSION['flash_data'];
+		}
+
+		if ( isset( $_SESSION['flash_data'][$name] ) && !empty( $name ) ) {
 			return $_SESSION['flash_data'][$name];
 		}
 
@@ -157,22 +165,26 @@ class SessionManager {
 	/**
 	 * Sets userdata to session
 	 *
-	 * @param string	$name
-	 * @param string	$value
+	 * @param string $key   		- Key name
+	 * @param mixed  $value 		- Value
 	 */
-	static function set_userdata( $name, $value ) {
-		$_SESSION['user_data'][$name] = $value;
+	static function set_userdata( $key, $value ) {
+		$_SESSION['user_data'][$key] = $value;
 	}
 
 	/**
 	 * Retrieves userdata if it is set
 	 *
-	 * @param string 	$name
-	 * @return string|null
+	 * @param string $key 			- Key name
+	 * @return array|string|null	- Return value
 	 */
-	static function get_userdata( $name ) {
-		if ( isset( $_SESSION['user_data'][$name] ) ) {
-			return $_SESSION['user_data'][$name];
+	static function get_userdata( $key = "" ) {
+		if ( isset( $_SESSION['user_data'] ) && empty( $key ) ) {
+			return $_SESSION['user_data'];
+		}
+
+		if ( isset( $_SESSION['user_data'][$key] ) && !empty( $key ) ) {
+			return $_SESSION['user_data'][$key];
 		}
 
 		return null;

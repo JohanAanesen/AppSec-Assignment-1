@@ -6,6 +6,30 @@ class UserController extends ITable {
 		parent::__construct( $db, $table );
 	}
 
+	public function test() {
+		try {
+			$stmt = $this->db->prepare( "SELECT * FROM $this->table" );
+			$stmt->execute();
+
+			$result = $stmt->fetchAll( PDO::FETCH_CLASS, "User" );
+
+			foreach ( $result as $u ) {
+				unset( $u->password );
+			}
+
+			return $result;
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return false;
+		}
+	}
+
+	/**
+	 * @param string $username			- Account username
+	 * @param string $password			- Account hashed password
+	 * @return bool						- True if all is good, else return false.
+	 */
 	public function login( $username, $password ) {
 		try {
 			// Prepare SQL statement, and bind parameter to query
@@ -70,6 +94,20 @@ class UserController extends ITable {
 
 	public function create( $username, $email, $password ) {
 		try {
+			// Check if username is already in use
+			if ( $this->read_username( $username ) ) {
+				SessionManager::set_flashdata( 'warning_msg', 'Username is already in use!' );
+				Logger::write( sprintf( 'Account creation, username already taken: "%s"', $username ), Logger::WARNING );
+				return false;
+			}
+
+			// Check if email is already in use
+			if ( $this->read_email( $email ) ) {
+				SessionManager::set_flashdata( 'warning_msg', 'Email is already in use!' );
+				Logger::write( sprintf( 'Account creation, email already taken: "%s"', $email ), Logger::WARNING );
+				return false;
+			}
+
 			// Set current date
 			$date = date('Y-m-d');
 
@@ -82,14 +120,21 @@ class UserController extends ITable {
 
 			// Check if execution went through
 			if ( $stmt->execute() ) {
+				$stmt = $this->db->prepare( "INSERT INTO userrole SET userId=:userId, role=1" );
+				$stmt->bindParam( ":userId", $this->db->lastInsertId(), PDO::PARAM_INT );
+				$stmt->execute();
+
 				SessionManager::set_flashdata( 'success_msg', 'Account successfully created!' );
 				Logger::write( sprintf( 'New account created: (%s, %s)', $username, $email ), Logger::SUCCESS );
 				return true;
+
 			} else {
 				SessionManager::set_flashdata( 'error_msg', 'Could not create account!' );
 				Logger::write( sprintf( 'Attempt on creating account failed: (IP: %s, Username: %s, Email: %s)', $_SERVER['REMOTE_ADDR'], $username, $email ), Logger::WARNING );
 				return false;
+
 			}
+
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );
@@ -97,9 +142,64 @@ class UserController extends ITable {
 		}
 	}
 
-	public function read( $args ) {
+	public function read() {
 		try {
+			$stmt = $this->db->prepare( "SELECT * FROM $this->table" );
 
+			$stmt->execute();
+
+			return $stmt->fetchAll( PDO::FETCH_ASSOC );
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return array();
+		}
+	}
+
+	public function read_id( $id ) {
+		try {
+			$stmt = $this->db->prepare( "SELECT * FROM $this->table WHERE userId=:uid" );
+			$stmt->bindParam( ':uid', $id, PDO::PARAM_INT );
+
+			$stmt->execute();
+
+			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+			return (!empty( $result )) ? $result[0] : $result;
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return array();
+		}
+	}
+
+	public function read_username( $username ) {
+		try {
+			$stmt = $this->db->prepare( "SELECT * FROM $this->table WHERE username=:username" );
+			$stmt->bindParam( ':username', $username, PDO::PARAM_STR );
+
+			$stmt->execute();
+
+			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+			return (!empty( $result )) ? $result[0] : $result;
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return array();
+		}
+	}
+
+	public function read_email( $email ) {
+		try {
+			$stmt = $this->db->prepare( "SELECT * FROM $this->table WHERE email=:email" );
+			$stmt->bindParam( ':email', $email, PDO::PARAM_STR );
+
+			$stmt->execute();
+
+			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+			return (!empty( $result )) ? $result[0] : $result;
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );
@@ -109,7 +209,7 @@ class UserController extends ITable {
 
 	public function update( $args ) {
 		try {
-
+			// TODO: Make code for this
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );
@@ -119,7 +219,7 @@ class UserController extends ITable {
 
 	public function delete( $args ) {
 		try {
-
+			// TODO: Make code for this
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );

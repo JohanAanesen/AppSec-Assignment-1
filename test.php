@@ -6,9 +6,9 @@ require_once 'classes/SessionManager.php';
 
 $app = new Application();
 
-SessionManager::session_start( 'app', 60*24 );
+SessionManager::session_start( 'app' );
 
-if ( isset( $_GET['register'] ) ) {
+if ( isset( $_GET['register'] ) && !$app->is_logged_in() ) {
 	if ( isset($_POST['r_username']) ) {
 		$username = $_POST['r_username'];
 		$email = $_POST['r_email'];
@@ -16,6 +16,7 @@ if ( isset( $_GET['register'] ) ) {
 
 		if ( $app->register_user( $username, $email, $password ) ) {
 			// TODO: Go to another page
+			$app->redirect('test.php' );
 		} else {
 			// TODO: Go somewhere else
 		}
@@ -24,19 +25,25 @@ if ( isset( $_GET['register'] ) ) {
 	}
 }
 
-if ( isset( $_GET['login'] ) ) {
+if ( isset( $_GET['login'] ) && !$app->is_logged_in() ) {
 	if ( isset($_POST['l_username']) ) {
 		$username = $_POST['l_username'];
 		$password = $_POST['l_password'];
 
 		if ( $app->login_user( $username, $password ) ) {
 			// TODO: Go to another page
+			$app->redirect('test.php' );
 		} else {
 			// TODO: Go somewhere else
 		}
 	} else {
 		$app->redirect('test.php');
 	}
+}
+
+if ( isset( $_GET['logout'] ) && $app->is_logged_in() ) {
+	$app->logout_user();
+	$app->redirect('test.php' );
 }
 
 
@@ -52,10 +59,53 @@ if ( isset( $_GET['login'] ) ) {
 </head>
 <body>
 
-<div class="container">
+<div class="container pt-3">
 
-	<div class="row py-5 bg-light">
+	<div class="row mb-3">
+		<?php if ( SessionManager::get_flashdata( 'success_msg' ) ) : ?>
+			<div class="col">
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					<strong>Success!</strong> <?php echo SessionManager::get_flashdata( 'success_msg' ); ?>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<!-- /.alert alert-success -->
+			</div>
+			<!-- /.col -->
+		<?php endif; ?>
 
+		<?php if ( SessionManager::get_flashdata( 'warning_msg' ) ) : ?>
+			<div class="col">
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<strong>Warning!</strong> <?php echo SessionManager::get_flashdata( 'warning_msg' ); ?>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<!-- /.alert alert-warning -->
+			</div>
+			<!-- /.col -->
+		<?php endif; ?>
+
+		<?php if ( SessionManager::get_flashdata( 'error_msg' ) ) : ?>
+			<div class="col">
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<strong>Error!</strong> <?php echo SessionManager::get_flashdata( 'error_msg' ); ?>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<!-- /.alert alert-danger -->
+			</div>
+			<!-- /.col -->
+		<?php endif; ?>
+	</div>
+	<!-- /.row -->
+
+	<div class="row mb-3">
+
+		<?php if ( !$app->is_logged_in() ) : ?>
 		<div class="col-4">
 			<div class="card">
 				<h5 class="card-header">
@@ -98,8 +148,10 @@ if ( isset( $_GET['login'] ) ) {
 			</div>
 			<!-- /.card -->
 		</div>
-		<!-- /.col-3 -->
+		<!-- /.col-4 -->
+		<?php endif; ?>
 
+		<?php if ( !$app->is_logged_in() ) : ?>
 		<div class="col-4">
 			<div class="card">
 				<h5 class="card-header">
@@ -131,46 +183,81 @@ if ( isset( $_GET['login'] ) ) {
 			</div>
 			<!-- /.card -->
 		</div>
-		<!-- /.col -->
+		<!-- /.col-4 -->
+		<?php endif; ?>
+
+		<?php if ( $app->is_logged_in() ) : ?>
+		<div class="col-4">
+			<div class="card">
+				<h5 class="card-header">
+					Sign out
+				</h5>
+				<!-- /.card-header -->
+				
+				<div class="card-body">
+					<a href="test.php?logout" class="btn btn-secondary btn-block">Sign out</a>
+					<!-- /.btn btn-secondary -->
+				</div>
+				<!-- /.card-body -->
+			</div>
+			<!-- /.card -->
+		</div>
+		<!-- /.col-4 -->
+		<?php endif; ?>
+
+		<?php if ( $app->is_logged_in() ) : ?>
+		<div class="col-4">
+			<div class="card">
+				<h5 class="card-header">
+					Profile details
+				</h5>
+				<!-- /.card-header -->
+
+				<div class="card-body p-0">
+					<table class="table table-striped">
+						<thead>
+						<tr>
+							<th>Key</th>
+							<th>Value</th>
+						</tr>
+						</thead>
+
+						<tbody>
+						<?php foreach ( SessionManager::get_userdata( 'user_info' ) as $key => $value ) : ?>
+						<tr>
+							<td><?= $key; ?></td>
+							<td><?= $value; ?></td>
+						</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+					<!-- /.table table-striped -->
+				</div>
+				<!-- /.card-body -->
+			</div>
+			<!-- /.card -->
+		</div>
+		<!-- /.col-4 -->
+		<?php endif; ?>
 
 	</div>
 	<!-- /.row -->
 
-	<?php
-	echo '<pre>';
-	print_r( $_SESSION );
-	echo '</pre>';
-	?>
-
-	<?php if ( SessionManager::get_flashdata( 'success_msg' ) ) : ?>
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
-			<strong>Success!</strong> <?php echo SessionManager::get_flashdata( 'success_msg' ); ?>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
+	<div class="row">
+		<div class="col">
+			<div class="jumbotron py-4">
+				<h3>Session:</h3>
+				<?php
+				echo '<pre>';
+				print_r( $_SESSION );
+				echo '</pre>';
+				?>
+			</div>
+			<!-- /.jumbotron -->
 		</div>
-		<!-- /.alert alert-success -->
-	<?php endif; ?>
-
-	<?php if ( SessionManager::get_flashdata( 'warning_msg' ) ) : ?>
-		<div class="alert alert-warning alert-dismissible fade show" role="alert">
-			<strong>Warning!</strong> <?php echo SessionManager::get_flashdata( 'warning_msg' ); ?>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<!-- /.alert alert-warning -->
-	<?php endif; ?>
-
-	<?php if ( SessionManager::get_flashdata( 'error_msg' ) ) : ?>
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			<strong>Error!</strong> <?php echo SessionManager::get_flashdata( 'error_msg' ); ?>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<!-- /.alert alert-danger -->
-	<?php endif; ?>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
 
 
 </div>

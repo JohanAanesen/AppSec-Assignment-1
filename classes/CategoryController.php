@@ -72,7 +72,8 @@ class CategoryController extends ITable {
                                                     INNER JOIN user ON topic.userId = user.userId
                                                     WHERE user.username IN (SELECT user.username FROM user
                                                                             INNER JOIN topic ON user.userId = topic.userId
-                                                                            ORDER BY topic.editTimestamp ASC)");
+                                                                            ORDER BY topic.editTimestamp ASC)
+                                                    GROUP BY category.title");
 
 			if ( $stmt->execute()){
 

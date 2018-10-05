@@ -5,7 +5,7 @@ require_once __DIR__ . "/../../classes/Application.php";
 $app = Application::get_instance();
 $twig = $app->get_twig();
 
-$loggedIn = false;
+$loggedIn = $app->is_logged_in();
 
 
 if(!isset($_GET["query"])){

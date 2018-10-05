@@ -5,7 +5,8 @@ require_once __DIR__ . "/../../classes/Application.php";
 $app = Application::get_instance();
 $twig = $app->get_twig();
 
-$loggedIn = false;
+$loggedIn = $app->is_logged_in();
+
 
 $topics = null;
 if(isset($_GET['id'])){
@@ -17,6 +18,6 @@ if(isset($_GET['id'])){
 
 
 echo $twig->render('topic.html', array(
-    'title' => 'Home',
+    'title' => 'Horrible - Topic',
     'loggedIn' => $loggedIn,
 ));

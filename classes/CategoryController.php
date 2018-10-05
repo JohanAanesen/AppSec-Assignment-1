@@ -66,7 +66,7 @@ class CategoryController extends ITable {
 
 	public function read() {
 		try {
-			$stmt = $this->db->prepare( "SELECT category.categoryId, category.title, COUNT(topic.categoryId LIKE category.categoryId) AS topics, user.username AS topicUser, topic.editTimestamp AS topicStamp, topic.title AS topicTitle
+			$stmt = $this->db->prepare( "SELECT category.categoryId, category.title, COUNT(topic.categoryId LIKE category.categoryId) AS topics, user.username AS topicUser, user.userId AS topicUserId, topic.editTimestamp AS topicStamp, topic.title AS topicTitle, topic.topicId AS topicId
                                                     FROM ". $this->table .
                                                     " INNER JOIN topic ON category.categoryId = topic.categoryId
                                                     INNER JOIN user ON topic.userId = user.userId

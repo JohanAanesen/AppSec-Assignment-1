@@ -1,0 +1,27 @@
+<tr>
+    <td>
+        <a href="#">
+            <strong>
+                {{ categoryTableRow.title }}
+            </strong>
+        </a>
+        <br>
+        <small>
+            {{ categoryTableRow.description }}
+        </small>
+    </td>
+    <td>
+        {{ categoryTableRow.topics }}
+    </td>
+    <td>
+        <a href="/topic?id={{ categoryTableRow.topicId }}" class="mb-0">
+            <strong>
+                {{ categoryTableRow.topicTitle }}
+            </strong>
+        </a>
+
+        <small>by <a href="/user?id={{ categoryTableRow.topicUserId }}">{{ categoryTableRow.topicUser }}</a></small>
+        <br>
+        <small>{{ categoryTableRow.topicStamp }}</small>
+    </td>
+</tr>

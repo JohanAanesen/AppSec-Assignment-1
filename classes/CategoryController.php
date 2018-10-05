@@ -22,6 +22,15 @@ class CategoryController extends ITable {
 
 	public function create( $title ) {
 		try {
+			
+			if( sizeof( $title ) < 3 ){
+				SessionManager::set_flashdata( 'error_msg', "Input too short");
+                Logger::write( sprintf( 'Create Category, Input too short: "%s"', $title ));
+                
+				return false;
+
+			}	
+
 			//Sjekker om kategorien finnes
 			if ( $this->read_category( $title )) {
 				SessionManager::set_flashdata( 'error_msg', "Category already exists");

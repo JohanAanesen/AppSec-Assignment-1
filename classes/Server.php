@@ -7,9 +7,7 @@ define( "DB_CHARSET", "utf8" );
 
 require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/Database.php";
-require_once __DIR__ . "/Session.php";
 require_once __DIR__ . "/ITable.php";
-require_once __DIR__ . "/User.php";
 
 class Server{
 
@@ -18,7 +16,6 @@ class Server{
 
     private function __construct() {
         $this->db = new Database(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_CHARSET );
-        $this->session = new Session();
     }
 
 

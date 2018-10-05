@@ -6,7 +6,7 @@
 		
 		<div class="card">
 			<h5 class="card-header">
-				Why Go is shit for prototyping <small> - 07/09/2018 - 13:37</small>
+				{{ topic.title }} <small> - {{ topic.timestamp }}</small>
 			</h5>
 			<!-- /.card-header -->
 			<div class="card-body">
@@ -41,6 +41,26 @@
 </div>
 <!-- /.row -->
 
+<div class="col-md-12">
+    <div class="col-md-12">
+        {% for reply in replies %}
+        <div class="card">
+            <div class="card-header">{{ reply.name }}</div>
+            <div class="card-body">
+                <p>{{ reply.content }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        <p>Reply:</p>
+    </div>
+    <div class="input-group-text">
+
+        <form action="/newReply?topic=xxx" id="replyForm"></form>
+        <input type="hidden" name="{{user.id}}">
+        <textarea class="form-control"></textarea>
+        <button class="btn btn-lg btn-outline-success" type="submit" form="replyForm">Send</button>
+    </div>
+</div>
 
 
 {% endblock content %}

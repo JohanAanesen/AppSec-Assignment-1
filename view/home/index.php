@@ -33,7 +33,7 @@ class test{
     public function __construct(){
         $this->title = "Johan er flink ass";
         $this->description = "test";
-        $this->topics = "test";
+        $this->topics = "2148";
         $this->posts = "test";
         $this->lastPostTitle = "test";
         $this->lastPostAuthor = "test";

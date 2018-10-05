@@ -10,13 +10,15 @@ $loggedIn = false;
 $topics = null;
 if(isset($_GET['id'])){
     $id = $_GET['id'];
-    $topics = $app->get_topicId($id);
+    $topics = $app->get_topicsWithCategory($id);
 }else{
     $topics = $app->get_topics();
 }
 
 
-echo $twig->render('topic.html', array(
-    'title' => 'Home',
+
+echo $twig->render('category.html', array(
+    'title' => 'Horrible - Category',
     'loggedIn' => $loggedIn,
+    'topics' => $topics,
 ));

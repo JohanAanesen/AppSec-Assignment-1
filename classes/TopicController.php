@@ -57,7 +57,11 @@ class TopicController extends ITable {
 
 	public function read_topic () {
 		try {
-			$stmt = $this->db->prepare( "SELECT * FROM $this->table" );
+			$stmt = $this->db->prepare( "SELECT topic.topicId, topic.categoryId, topic.userId AS topicUserId, topic.title AS topicTitle, topic.content AS topicContent, user.username AS topicUser, COUNT(reply.topicId LIKE topic.topicId) AS replies
+                                                    FROM $this->table
+                                                    INNER JOIN user ON user.userId = topic.userId
+                                                    LEFT JOIN reply ON topic.topicId = reply.topicId
+                                                    GROUP BY topic.topicId" );
 
 			$stmt->execute();
 
@@ -85,6 +89,27 @@ class TopicController extends ITable {
 			return array();
 		}
 	}
+
+    public function read_topicsFromCategory( $categoryID ) {
+        try {
+            $stmt = $this->db->prepare( "SELECT topic.topicId, topic.categoryId, topic.userId AS topicUserId, topic.title AS topicTitle, topic.content AS topicContent, user.username AS topicUser, COUNT(reply.topicId LIKE topic.topicId) AS replies
+                                                    FROM $this->table
+                                                    INNER JOIN user ON user.userId = topic.userId
+                                                    LEFT JOIN reply ON topic.topicId = reply.topicId
+                                                    WHERE topic.categoryId=:catID
+                                                    GROUP BY topic.topicId" );
+            $stmt->bindParam( ':catID', $categoryID, PDO::PARAM_INT );
+
+            $stmt->execute();
+
+            return $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        } catch ( PDOException $e ) {
+            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+            Logger::write( $e->getMessage(), Logger::ERROR );
+            return array();
+        }
+    }
 /*	public function update( $args ) {
 		try {
 			// Make code for this

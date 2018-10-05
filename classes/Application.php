@@ -28,6 +28,11 @@ class Application {
      */
 	private $categoryController;
 
+    /**
+     * @var TopicController
+     */
+	private $topicController;
+
 	/**
 	 * Application constructor.
 	 */
@@ -35,6 +40,7 @@ class Application {
 		$this->db = new Database(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_CHARSET );
 		$this->userController = new UserController( $this->db->getDB(), 'user' );
 		$this->categoryController= new CategoryController( $this->db->getDB(),'category');
+		$this->topicController = new TopicController($this->db->getDB(), 'topic');
 	}
 
 	static public function get_instance() {
@@ -116,4 +122,18 @@ class Application {
     public function get_categories(){
 	    return $this->categoryController->read();
     }
+
+
+    public function get_topicId($id){
+	    return $this->topicController->read_topicId($id);
+    }
+
+    public function get_topics(){
+	    return $this->topicController->read_topic();
+    }
+
+    public function get_topicsWithCategory($catId){
+	    return $this->topicController->read_topicsFromCategory($catId);
+    }
+
 }

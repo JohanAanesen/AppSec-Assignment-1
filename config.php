@@ -7,12 +7,12 @@ define( "DB_DATABASE", "forum" );
 define( "DB_CHARSET", "utf8" );
 define( "ROOTPATH", __DIR__);
 
-//require_once __DIR__ . "/classes/Server.php";
 require_once ROOTPATH . "/vendor/autoload.php";
 require_once ROOTPATH . "/classes/Database.php";
 require_once ROOTPATH . "/classes/ITable.php";
 require_once ROOTPATH . "/classes/UserController.php";
 require_once ROOTPATH . "/classes/CategoryController.php";
+require_once ROOTPATH . "/classes/TopicController.php";
 require_once ROOTPATH . "/classes/SessionManager.php";
 require_once ROOTPATH . "/classes/Logger.php";
 

@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-9">
+    <div class="col-12">
         <div class="row mb-3">
             <div class="col">
                 <div class="card border-dark">
@@ -12,21 +12,18 @@
                         <table class="table mb-0">
                             <thead class="card-header bg-dark text-light">
                             <th>
-                                FORUM
+                                TOPIC
                             </th>
                             <th>
-                                CATEGORY
+                                REPLIES
                             </th>
                             <th>
-                                TOPICS
-                            </th>
-                            <th>
-                                LAST TOPIC
+                                LAST REPLY
                             </th>
                             </thead>
                             <tbody>
-                            {% for forumTableRow in forumTableRows %}
-                            {% include "forumTableRow.html" %}
+                            {% for topic in topics %}
+                            {% include "topicTableRow.html" %}
                             {% endfor %}
                             </tbody>
                         </table>
@@ -45,5 +42,5 @@
     </div>
     <!-- /.col-8 -->
 
-
+</div>
 {% endblock content %}

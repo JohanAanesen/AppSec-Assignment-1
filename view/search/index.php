@@ -1,10 +1,9 @@
 <?php
 
-require_once __DIR__ . "/../../classes/Server.php";
+require_once __DIR__ . "/../../classes/Application.php";
 
-$db     = Server::requireDatabase();
-$twig   = Server::requireTwig();
-
+$app = Application::get_instance();
+$twig = $app->get_twig();
 
 $loggedIn = false;
 

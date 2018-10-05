@@ -1,0 +1,27 @@
+<tr>
+    <td>
+        <a href="/topic?id={{ topic.topicId }}">
+            <strong>
+                {{ topic.topicTitle }}
+            </strong>
+        </a>
+        <br>
+        <small>
+            {{ topic.topicContent }}
+        </small>
+    </td>
+    <td>
+        {{ topic.replies }}
+    </td>
+    <td>
+        <a href="/topic?id={{ topic.topicId }}" class="mb-0">
+            <strong>
+                {{ topic.topicTitle }}
+            </strong>
+        </a>
+
+        <small>by <a href="/user?id={{ topic.topicUserId }}">{{ topic.topicUser }}</a></small>
+        <br>
+        <small>{{ topic.topicStamp }}</small>
+    </td>
+</tr>

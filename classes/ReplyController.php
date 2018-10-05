@@ -18,7 +18,11 @@ class ReplyController extends ITable {
 
     public function test() {
         try {
-            $stmt = $this->db->prepare( "SELECT * FROM $this->table" );
+            $stmt = $this->db->prepare( "SELECT * FROM $this->table
+            /**
+                                                  WHERE topicId = topic.topicId //Kanskje???
+            **/                                   
+            " );
             $stmt->execute();
 
             $result = $stmt->fetchAll( PDO::FETCH_CLASS, "replyId, topicId, userId, content, timestamp" );

@@ -1,26 +1,20 @@
 <?php
 
-require_once __DIR__ . "/../../config.php";
-
-
-$db     = Server::requireDatabase();
-$twig   = Server::requireTwig();
+require_once __DIR__ . "/../../classes/Application.php";
 
 $app = Application::get_instance();
+$twig = $app->get_twig();
 
 $loggedIn = false;
 
-$test = null;
-$test[0] = new test();
-$test[1] = new test();
-$test[2] = new test();
-$test[3] = new test();
+
+$categories = $app->get_categories();
 
 
 echo $twig->render('home.html', array(
     'title' => 'Home',
     'loggedIn' => $loggedIn,
-    'forumTableRows' => $test,
+    'forumTableRows' => $categories,
 ));
 
 

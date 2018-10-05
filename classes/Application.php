@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.php';
+require_once __DIR__ . '/../config.php';
 
 /**
  * Class Application
@@ -23,12 +23,18 @@ class Application {
 	 */
 	private $userController;
 
+    /**
+     * @var CategoryController
+     */
+	private $categoryController;
+
 	/**
 	 * Application constructor.
 	 */
 	protected function __construct() {
 		$this->db = new Database(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_CHARSET );
 		$this->userController = new UserController( $this->db->getDB(), 'user' );
+		$this->categoryController= new CategoryController( $this->db->getDB(),'category');
 	}
 
 	static public function get_instance() {
@@ -99,4 +105,15 @@ class Application {
 		return ($this->userController->read_user_role( $userId ) == 1) ? 'user' : 'admin';
 	}
 
+    public function get_twig() {
+        $path = ROOTPATH . "/twig/";
+        $loader = new Twig_Loader_Filesystem($path);
+        return new Twig_Environment($loader, array(
+            //    'cache' => './compilation_cache',
+        ));
+    }
+
+    public function get_categories(){
+	    return $this->categoryController->read();
+    }
 }

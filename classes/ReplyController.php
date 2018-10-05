@@ -16,6 +16,25 @@ class ReplyController extends ITable {
 		parent::__construct( $db, $table );
 	}
 
+    public function test() {
+        try {
+            $stmt = $this->db->prepare( "SELECT * FROM $this->table" );
+            $stmt->execute();
+
+            $result = $stmt->fetchAll( PDO::FETCH_CLASS, "replyId, topicId, userId, content, timestamp" );
+
+            foreach ( $result as $u ) {
+                unset( $u->password );
+            }
+
+            return $result;
+
+        } catch ( PDOException $e ) {
+            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+            Logger::write( $e->getMessage(), Logger::ERROR );
+            return false;
+        }
+
 	/**
 	 * DATABASE TABLE:
 	 *

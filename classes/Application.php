@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: svein
- * Date: 10.09.2018
- * Time: 14.53
- */
 
 require_once 'config.php';
 
@@ -12,6 +6,12 @@ require_once 'config.php';
  * Class Application
  */
 class Application {
+
+	/**
+	 * Singelton variable
+	 * @var
+	 */
+	protected static $instance;
 
 	/**
 	 * @var Database
@@ -26,9 +26,21 @@ class Application {
 	/**
 	 * Application constructor.
 	 */
-	public function __construct() {
+	protected function __construct() {
 		$this->db = new Database(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_CHARSET );
 		$this->userController = new UserController( $this->db->getDB(), 'user' );
+	}
+
+	static public function get_instance() {
+		if ( !self::has_instance() ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	static protected function has_instance() {
+		return self::$instance instanceof self;
 	}
 
 	/**
@@ -37,10 +49,6 @@ class Application {
 	public function redirect( $path = '' ) {
 		$path = (empty($path)) ? __FILE__ : $path;
 		header('Location: ' . $path );
-	}
-
-	public function test() {
-		return $this->userController->test();
 	}
 
 	/**
@@ -85,6 +93,10 @@ class Application {
 
 	public function is_logged_in() {
 		return !empty( SessionManager::get_userdata() );
+	}
+
+	public function get_user_role( $userId ) {
+		return ($this->userController->read_user_role( $userId ) == 1) ? 'user' : 'admin';
 	}
 
 }

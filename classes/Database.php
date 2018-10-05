@@ -32,6 +32,7 @@ class Database {
 			$dns = sprintf("mysql:host=%s;dbname=%s;charset=%s;", $this->hostname, $this->database, $this->charset);
 			$this->db = new PDO($dns, $this->username, $this->password);
 
+
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}

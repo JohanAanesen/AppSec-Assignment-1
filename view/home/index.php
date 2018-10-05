@@ -1,10 +1,12 @@
 <?php
 
-require_once __DIR__ . "/../../classes/Server.php";
+require_once __DIR__ . "/../../config.php";
+
 
 $db     = Server::requireDatabase();
 $twig   = Server::requireTwig();
 
+$app = new Application();
 
 $loggedIn = false;
 

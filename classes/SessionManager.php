@@ -165,11 +165,10 @@ class SessionManager {
 	/**
 	 * Sets userdata to session
 	 *
-	 * @param string $key   		- Key name
 	 * @param mixed  $value 		- Value
 	 */
-	static function set_userdata( $key, $value ) {
-		$_SESSION['user_data'][$key] = $value;
+	static function set_userdata( $value ) {
+		$_SESSION['user_data'] = $value;
 	}
 
 	/**

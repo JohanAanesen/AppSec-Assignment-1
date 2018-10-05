@@ -12,7 +12,6 @@ require_once __DIR__ . "/ITable.php";
 class Server{
 
     private static $db = null;
-    private $session = null;
 
     private function __construct() {
         $this->db = new Database(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_CHARSET );

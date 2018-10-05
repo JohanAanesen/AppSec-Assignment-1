@@ -62,7 +62,7 @@ class UserController extends ITable {
 					unset( $user['password'] );
 					unset( $user['loginAttempts'] );
 					SessionManager::set_flashdata( 'success_msg', 'Login successful!' );
-					SessionManager::set_userdata( 'user_info', $user );
+					SessionManager::set_userdata( $user );
 					Logger::write( sprintf( "User \"%s\" has successfully logged in.", $username ), Logger::SUCCESS );
 					return true;
 
@@ -108,8 +108,17 @@ class UserController extends ITable {
 				return false;
 			}
 
+			// Check if username is at least 3 characters long
+			if ( sizeof( $username ) < 3 ) {
+				SessionManager::set_flashdata( 'warning_msg', 'Username needs to be at least 3 character long!' );
+				return false;
+			}
+
 			// Set current date
 			$date = date('Y-m-d');
+
+			// Encrypt password
+
 
 			// Prepare SQL query and bind parameters
 			$stmt = $this->db->prepare( "INSERT INTO $this->table SET username=:username, email=:email, password=:password, dateJoined=:dateJoined, loginAttempts=0" );
@@ -200,6 +209,21 @@ class UserController extends ITable {
 			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
 			return (!empty( $result )) ? $result[0] : $result;
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return false;
+		}
+	}
+
+	public function read_user_role( $userId ) {
+		try {
+			$stmt = $this->db->prepare( "SELECT role FROM userrole WHERE userId=:userId" );
+			$stmt->bindParam( ':userId', $userId, PDO::PARAM_INT );
+
+			$stmt->execute();
+
+			return $stmt->fetch( PDO::FETCH_ASSOC );
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );

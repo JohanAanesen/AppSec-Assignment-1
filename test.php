@@ -4,7 +4,7 @@ require_once 'classes/Application.php';
 require_once 'classes/Logger.php';
 require_once 'classes/SessionManager.php';
 
-$app = new Application();
+$app = Application::get_instance();
 
 SessionManager::session_start( 'app' );
 
@@ -12,7 +12,7 @@ if ( isset( $_GET['register'] ) && !$app->is_logged_in() ) {
 	if ( isset($_POST['r_username']) ) {
 		$username = $_POST['r_username'];
 		$email = $_POST['r_email'];
-		$password = password_hash( $_POST['r_password'], PASSWORD_DEFAULT );
+		$password = $_POST['r_password'];
 
 		if ( $app->register_user( $username, $email, $password ) ) {
 			// TODO: Go to another page
@@ -223,7 +223,7 @@ if ( isset( $_GET['logout'] ) && $app->is_logged_in() ) {
 						</thead>
 
 						<tbody>
-						<?php foreach ( SessionManager::get_userdata( 'user_info' ) as $key => $value ) : ?>
+						<?php foreach ( SessionManager::get_userdata() as $key => $value ) : ?>
 						<tr>
 							<td><?= $key; ?></td>
 							<td><?= $value; ?></td>

@@ -65,7 +65,7 @@ class Application {
 	 */
 	public function logout_user() {
 		SessionManager::set_flashdata( SessionManager::SUCCESS, 'Successfully logged out!' );
-		Logger::write( sprintf( "User \"%s\" has successfully logged out.", SessionManager::get_userdata( 'user_info' )['username'] ), Logger::SUCCESS );
+		Logger::write( sprintf( "User \"%s\" has successfully logged out.", SessionManager::get_userdata( 'username' ) ), Logger::SUCCESS );
 		SessionManager::delete_userdata();
 	}
 

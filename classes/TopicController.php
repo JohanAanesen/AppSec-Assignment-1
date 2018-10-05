@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: svein
- * Date: 25.09.2018
- * Time: 11.26
- */
 
 class TopicController extends ITable {
 
@@ -15,7 +9,7 @@ class TopicController extends ITable {
 	public function create($topicId, $categoryId, $userId, $title, $content, $dateWritten, $editTimestamp) {
 		try {
 			// check if topic exists
-			if (this->read_topicId( $topicId)) {
+			if ( $this->read_topicId( $topicId)) {
 				SessionManager::set_flashdata( 'warning_msg', 'topicId is already taken!' );
 				Logger::write( sprintf(  'Topic creation, topic already taken: "%s"', $topicId ), Logger::WARNING );
 				return false;
@@ -51,73 +45,69 @@ class TopicController extends ITable {
 
 			} else {
 				SessionManager::set_flashdata( 'error_msg', 'Could not create topic!' );
-				Logger::write( sprintf( 'Attempt on creating topic failed: (IP: %s, topicId: %s, categoryId: %s)', $_SERVER['REMOTE_ADDR'], $username, $email ), Logger::WARNING );
-				return false;
-
-			} catch ( PDOException $e ) {
-				SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
-				Logger::write( $e->getMessage(), Logger::ERROR );
+				Logger::write( sprintf( 'Attempt on creating topic failed: (IP: %s, topicId: %s, categoryId: %s)', $_SERVER['REMOTE_ADDR'], $topicId, $categoryId ), Logger::WARNING );
 				return false;
 			}
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return false;
 		}
-
-		public function read_topic () {
-			try {
-				$stmt = $this->db->prepare( "SELECT * FROM $this->table" );
-
-				$stmt->execute();
-
-				return $stmt->fetchAll( PDO::FETCH_ASSOC );
-			} catch ( PDOException $e ) {
-				SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
-				Logger::write( $e->getMessage(), Logger::ERROR );
-				return array();
-			}
-		}
-
-		public function read_topicId( $topicId ) {
-			try {
-				$stmt = $this->db->prepare( "SELECT * FROM $this->table WHERE topicId=:topicId" );
-				$stmt->bindParam( ':topicId', $topicId, PDO::PARAM_INT );
-
-				$stmt->execute();
-
-				$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
-
-				return (!empty( $result )) ? $result[0] : $result;
-			} catch ( PDOException $e ) {
-				SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
-				Logger::write( $e->getMessage(), Logger::ERROR );
-				return array();
-			}
-		}
-	/*	public function update( $args ) {
-			try {
-				// Make code for this
-			} catch ( PDOException $e ) {
-				SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
-				Logger::write( $e->getMessage(), Logger::ERROR );
-				return false;
-			}
-		}*/
-
-		public function delete( $topicId ) {
-			try {
-				$stmt = $this->db->prepare( "DELETE FROM $this->table WHERE topicId=:topicId")
-
-				$stmt->execute();
-
-			} catch ( PDOException $e ) {
-				SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
-				Logger::write( $e->getMessage(), Logger::ERROR );
-				return false;
-			}
-		}
-
-
-
-
 	}
+
+	public function read_topic () {
+		try {
+			$stmt = $this->db->prepare( "SELECT * FROM $this->table" );
+
+			$stmt->execute();
+
+			return $stmt->fetchAll( PDO::FETCH_ASSOC );
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return array();
+		}
+	}
+
+	public function read_topicId( $topicId ) {
+		try {
+			$stmt = $this->db->prepare( "SELECT * FROM $this->table WHERE topicId=:topicId" );
+			$stmt->bindParam( ':topicId', $topicId, PDO::PARAM_INT );
+
+			$stmt->execute();
+
+			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+			return (!empty( $result )) ? $result[0] : $result;
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return array();
+		}
+	}
+/*	public function update( $args ) {
+		try {
+			// Make code for this
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return false;
+		}
+	}*/
+
+	public function delete( $topicId ) {
+		try {
+			$stmt = $this->db->prepare( "DELETE FROM $this->table WHERE topicId=:topicId");
+
+			$stmt->execute();
+
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return false;
+		}
+	}
+
 	/**
 	 * DATABASE TABLE:
 	 *

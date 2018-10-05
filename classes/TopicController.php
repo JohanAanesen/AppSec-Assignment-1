@@ -99,8 +99,7 @@ class TopicController extends ITable {
 		try {
 			$stmt = $this->db->prepare( "DELETE FROM $this->table WHERE topicId=:topicId");
 
-			$stmt->execute();
-
+			return $stmt->execute();
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );

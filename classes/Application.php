@@ -136,4 +136,8 @@ class Application {
 	    return $this->topicController->read_topicsFromCategory($catId);
     }
 
+    public function get_latestTopicFromCategory($catId){
+	    return $this->topicController->read_latestTopicFromCategory($catId);
+    }
+
 }

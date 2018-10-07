@@ -90,6 +90,29 @@ class TopicController extends ITable {
 		}
 	}
 
+    public function read_latestTopicFromCategory( $categoryID ) {
+        try {
+            $stmt = $this->db->prepare( "SELECT topic.topicId, topic.userId, topic.title AS topicTitle, topic.timestamp AS topicTimestamp, user.username AS topicUser
+                                                    FROM $this->table
+                                                    INNER JOIN user ON user.userId = topic.userId
+                                                    WHERE topic.categoryId=:catID
+                                                    ORDER BY topic.timestamp DESC 
+                                                    LIMIT 1" );
+            $stmt->bindParam( ':catID', $categoryID, PDO::PARAM_INT );
+
+            $stmt->execute();
+
+            $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+            return (!empty( $result )) ? $result[0] : $result;
+
+        } catch ( PDOException $e ) {
+            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+            Logger::write( $e->getMessage(), Logger::ERROR );
+            return array();
+        }
+    }
+
     public function read_topicsFromCategory( $categoryID ) {
         try {
             $stmt = $this->db->prepare( "SELECT topic.topicId, topic.categoryId, topic.userId AS topicUserId, topic.title AS topicTitle, topic.content AS topicContent, user.username AS topicUser, COUNT(reply.topicId LIKE topic.topicId) AS replies

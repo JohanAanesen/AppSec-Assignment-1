@@ -1,13 +1,13 @@
 {% extends "_base.html" %}
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
-<h3>{{ topic.category }}</h3>
+<small><a href="/category?id={{topic.categoryId}}">{{ topic.categoryTitle }}</a>/{{ topic.topicTitle }}</small>
 <div class="row mb-3">
 	<div class="col">
 		
 		<div class="card">
 			<h5 class="card-header">
-				{{ topic.title }} <small> - {{ topic.timestamp }}</small>
+				{{ topic.topicTitle }} <small> - {{ topic.topicTimestamp }}</small>
 			</h5>
 			<!-- /.card-header -->
 			<div class="card-body">
@@ -15,15 +15,15 @@
 					<div class="col-12">
 						<h4>
 							<a href="/user?id={{ topic.userId }}">
-								{{ topic.username }}
+								{{ topic.topicUser }}
 							</a>
 						</h4>
 						
 						<hr>
 						
-						<h5>{{ topic.title }}</h5>
+						<h5>{{ topic.topicTitle }}</h5>
 						
-						<p>{{ topic.content }}</p>
+						<p>{{ topic.topicContent }}</p>
 						
 						<img width="200px" height="200px" src="http://placehold.it/1920x1080?text=Go shit compiler" alt="" class="img-fluid">
 					</div>

@@ -75,7 +75,8 @@ class TopicController extends ITable {
 
 	public function read_topicId( $topicId ) {
 		try {
-			$stmt = $this->db->prepare( "SELECT * FROM $this->table 
+			$stmt = $this->db->prepare( "SELECT topic.topicId, topic.categoryId, topic.timestamp AS topicTimestamp, topic.userId AS topicUserId, topic.title AS topicTitle, topic.content AS topicContent, user.username AS topicUser, category.title AS categoryTitle
+                                                  FROM $this->table 
                                                   INNER JOIN user ON user.userId = topic.userId
                                                   INNER JOIN category ON topic.categoryId = category.categoryId
                                                   WHERE topicId=:topicId" );

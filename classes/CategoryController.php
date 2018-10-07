@@ -64,7 +64,7 @@ class CategoryController extends ITable {
 
 
 
-	public function read() { //TODO: make the query return categories without any topics in them and make it show the latest topic
+	public function read() {
 		try {
 			$stmt = $this->db->prepare( "SELECT category.categoryId, category.title, COUNT(topic.categoryId LIKE category.categoryId) AS topics
                                                     FROM $this->table 

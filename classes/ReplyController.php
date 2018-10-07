@@ -56,4 +56,25 @@ class ReplyController extends ITable {
 
         // NOTE: This class need to check if topic & user ID's exists aswell
     }
+
+    public function read_repliesFromTopic ($topicId) {
+        try {
+            $stmt = $this->db->prepare( "SELECT reply.userId, reply.topicId, reply.content, reply.timestamp, reply.editTimestamp, reply.replyId, user.username 
+                                                    FROM $this->table
+                                                    INNER JOIN topic ON reply.topicId = topic.topicId
+                                                    INNER JOIN user ON reply.userId = user.userId
+                                                    WHERE reply.topicId=:id
+                                                    ORDER BY reply.timestamp DESC" );
+
+            $stmt->bindParam( ':id', $topicId, PDO::PARAM_STR );
+
+            $stmt->execute();
+
+            return $stmt->fetchAll( PDO::FETCH_ASSOC );
+        } catch ( PDOException $e ) {
+            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+            Logger::write( $e->getMessage(), Logger::ERROR );
+            return array();
+        }
+    }
 }

@@ -75,7 +75,10 @@ class TopicController extends ITable {
 
 	public function read_topicId( $topicId ) {
 		try {
-			$stmt = $this->db->prepare( "SELECT * FROM $this->table WHERE topicId=:topicId" );
+			$stmt = $this->db->prepare( "SELECT * FROM $this->table 
+                                                  INNER JOIN user ON user.userId = topic.userId
+                                                  INNER JOIN category ON topic.categoryId = category.categoryId
+                                                  WHERE topicId=:topicId" );
 			$stmt->bindParam( ':topicId', $topicId, PDO::PARAM_INT );
 
 			$stmt->execute();

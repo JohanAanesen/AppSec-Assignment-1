@@ -33,6 +33,11 @@ class Application {
      */
 	private $topicController;
 
+    /**
+     * @var ReplyController
+     */
+	private $replyController;
+
 	/**
 	 * Application constructor.
 	 */
@@ -41,6 +46,7 @@ class Application {
 		$this->userController = new UserController( $this->db->getDB(), 'user' );
 		$this->categoryController= new CategoryController( $this->db->getDB(),'category');
 		$this->topicController = new TopicController($this->db->getDB(), 'topic');
+		$this->replyController = new ReplyController($this->db->getDB(), 'reply');
 	}
 
 	static public function get_instance() {
@@ -123,6 +129,9 @@ class Application {
 	    return $this->categoryController->read();
     }
 
+    public function get_category($catId){
+        return $this->categoryController->read_categoryFromId($catId);
+    }
 
     public function get_topicId($id){
 	    return $this->topicController->read_topicId($id);
@@ -138,6 +147,10 @@ class Application {
 
     public function get_latestTopicFromCategory($catId){
 	    return $this->topicController->read_latestTopicFromCategory($catId);
+    }
+
+    public function get_replies($topicId){
+	    return $this->replyController->read_repliesFromTopic($topicId);
     }
 
 }

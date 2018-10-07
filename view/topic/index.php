@@ -9,15 +9,19 @@ $loggedIn = $app->is_logged_in();
 
 
 $topics = null;
+$replies = null;
 if(isset($_GET['id'])){
     $id = $_GET['id'];
-    $topics = $app->get_topicId($id);
+    $topic = $app->get_topicId($id);
+    $replies = $app->get_replies($id);
 }else{
-    $topics = $app->get_topics();
+    $app->redirect("category");
 }
 
 
 echo $twig->render('topic.html', array(
     'title' => 'Horrible - Topic',
     'loggedIn' => $loggedIn,
+    'topic' => $topic,
+    'replies' => $replies,
 ));

@@ -13,6 +13,7 @@ require_once ROOTPATH . "/classes/ITable.php";
 require_once ROOTPATH . "/classes/UserController.php";
 require_once ROOTPATH . "/classes/CategoryController.php";
 require_once ROOTPATH . "/classes/TopicController.php";
+require_once ROOTPATH . "/classes/ReplyController.php";
 require_once ROOTPATH . "/classes/SessionManager.php";
 require_once ROOTPATH . "/classes/Logger.php";
 

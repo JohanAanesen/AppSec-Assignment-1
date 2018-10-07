@@ -113,6 +113,25 @@ class CategoryController extends ITable {
 		}
 	}
 
+    public function read_categoryFromId ($id) {
+        try {
+            $stmt = $this->db->prepare( "SELECT * from $this->table WHERE categoryId=:id");
+
+            $stmt->bindParam( ':id', $id, PDO::PARAM_STR );
+
+            $stmt->execute();
+
+            $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+            return(!empty( $result )) ? $result[0] : $result;
+
+        } catch ( PDOException $e ) {
+            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+            Logger::write( $e->getMessage(), Logger::ERROR );
+            return array();
+        }
+    }
+
 	public function update( $title, $newTitle ) {
 		try {
 			if(!$this->read_category( $title )) {

@@ -1,49 +1,11 @@
 {% extends "_base.html" %}
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
+<div class="container">
 
-<div class="row">
-    <div class="col-9">
-        <div class="row mb-3">
-            <div class="col">
-                <div class="card border-dark">
-                    <div class="card-body p-0">
-
-                        <table class="table mb-0">
-                            <thead class="card-header bg-dark text-light">
-                            <th>
-                                CATEGORY
-                            </th>
-                            <th>
-                                TOPICS
-                            </th>
-                            <th>
-                                LAST TOPIC
-                            </th>
-                            </thead>
-                            <tbody>
-                            {% for categoryTableRow in categoryTableRows %}
-                            {% include "categoryTableRow.html" %}
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                        <!-- /.table -->
-
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card border-primary -->
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-
-        
-    </div>
-    <!-- /.col-8 -->
     {% if loggedIn == false %}
-    <div class="col-3" id="sidebar">
-        <div class="row mb-3">
+    <div class="row col-12" id="">
+        <div class="col-md-6">
             <div class="col">
                 <div class="card border-dark">
                     <h5 class="card-header bg-dark text-light">
@@ -78,49 +40,81 @@
         </div>
         <!-- /.row -->
 
+        <div class="col-md-6">
+            <div class="card border-dark">
+                <h5 class="card-header bg-dark text-light">
+                    Sign up
+                </h5>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <label for="s_username">Username</label>
+                            <input type="text" name="s_username" id="s_username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="s_username">Email</label>
+                            <input type="email" name="s_email" id="s_email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="s_password">Password</label>
+                            <input type="password" name="s_password" id="s_password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="s_confirm_password">Confirm Password</label>
+                            <input type="password" name="s_confirm_password" id="s_confirm_password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-dark btn-block" name="s_signup" id="s_signup" type="submit">Sign up</button>
+                        </div>
+                        <!-- /.form-group -->
+                    </form>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.row -->
+    </div>
+
+    {% endif %}
+
+    <div class="col-12">
         <div class="row mb-3">
             <div class="col">
                 <div class="card border-dark">
-                    <h5 class="card-header bg-dark text-light">
-                        Sign up
-                    </h5>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <form action="" method="post">
-                            <div class="form-group">
-                                <label for="s_username">Username</label>
-                                <input type="text" name="s_username" id="s_username" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="s_username">Email</label>
-                                <input type="email" name="s_email" id="s_email" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="s_password">Password</label>
-                                <input type="password" name="s_password" id="s_password" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="s_confirm_password">Confirm Password</label>
-                                <input type="password" name="s_confirm_password" id="s_confirm_password" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-dark btn-block" name="s_signup" id="s_signup" type="submit">Sign up</button>
-                            </div>
-                            <!-- /.form-group -->
-                        </form>
+                    <div class="card-body p-0">
+
+                        <table class="table mb-0">
+                            <thead class="card-header bg-dark text-light">
+                            <th>
+                                CATEGORY
+                            </th>
+                            <th>
+                                TOPICS
+                            </th>
+                            <th>
+                                LAST TOPIC
+                            </th>
+                            </thead>
+                            <tbody>
+                            {% for categoryTableRow in categoryTableRows %}
+                            {% include "categoryTableRow.html" %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- /.table -->
+
                     </div>
                     <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
+                <!-- /.card border-primary -->
             </div>
             <!-- /.col -->
         </div>
         <!-- /.row -->
     </div>
-    <!-- /.col-3 -->
-    {% endif %}
 </div>
-<!-- /.row -->
 
-
+<!-- /.container -->
 {% endblock content %}

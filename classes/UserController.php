@@ -109,7 +109,7 @@ class UserController extends ITable {
 			}
 
 			// Check if username is at least 3 characters long
-			if ( sizeof( $username ) < 3 ) {
+			if ( strlen( $username ) < 3 ) {
 				SessionManager::set_flashdata( 'warning_msg', 'Username needs to be at least 3 character long!' );
 				return false;
 			}
@@ -118,7 +118,7 @@ class UserController extends ITable {
 			$date = date('Y-m-d');
 
 			// Encrypt password
-
+            $password = password_hash($password, PASSWORD_DEFAULT);
 
 			// Prepare SQL query and bind parameters
 			$stmt = $this->db->prepare( "INSERT INTO $this->table SET username=:username, email=:email, password=:password, dateJoined=:dateJoined, loginAttempts=0" );

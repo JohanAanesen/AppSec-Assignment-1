@@ -2,7 +2,7 @@
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
 <div class="container">
-
+    <h1>{% if loggedIn %}true{% else %}false{% endif %}</h1>
     {% if loggedIn == false %}
     <div class="row col-12" id="">
         <div class="col-md-6">
@@ -13,21 +13,21 @@
                     </h5>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <form action="" method="post">
+                        <form action="/login" method="post" id="l_form">
                             <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" name="username" id="username" class="form-control">
+                                <label for="l_username">Username</label>
+                                <input type="text" name="l_username" id="l_username" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" id="password" class="form-control">
+                                <label for="l_password">Password</label>
+                                <input type="password" name="l_password" id="l_password" class="form-control" required>
                             </div>
                             <div class="form-group form-check">
-                                <input type="checkbox" name="remember" id="remember" class="form-check-input">
-                                <label for="remember" class="form-check-label">Remember me</label>
+                                <input type="checkbox" name="l_remember" id="l_remember" class="form-check-input">
+                                <label for="l_remember" class="form-check-label">Remember me</label>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-dark btn-block" name="signin" id="signin" type="submit">Sign in</button>
+                                <button class="btn btn-dark btn-block" name="l_signin" id="l_signin" type="submit" form="l_form">Sign in</button>
                             </div>
                             <!-- /.form-group -->
                         </form>
@@ -47,25 +47,25 @@
                 </h5>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form action="" method="post">
+                    <form action="/register" method="post" id="r_form">
                         <div class="form-group">
-                            <label for="s_username">Username</label>
-                            <input type="text" name="s_username" id="s_username" class="form-control">
+                            <label for="r_username">Username</label>
+                            <input type="text" name="r_username" id="r_username" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="s_username">Email</label>
-                            <input type="email" name="s_email" id="s_email" class="form-control">
+                            <label for="r_username">Email</label>
+                            <input type="email" name="r_email" id="r_email" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="s_password">Password</label>
-                            <input type="password" name="s_password" id="s_password" class="form-control">
+                            <label for="r_password">Password</label>
+                            <input type="password" name="r_password" id="r_password" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="s_confirm_password">Confirm Password</label>
-                            <input type="password" name="s_confirm_password" id="s_confirm_password" class="form-control">
+                            <label for="r_confirm_password">Confirm Password</label>
+                            <input type="password" name="r_confirm_password" id="r_confirm_password" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-dark btn-block" name="s_signup" id="s_signup" type="submit">Sign up</button>
+                            <button class="btn btn-dark btn-block" name="r_signup" id="r_signup" type="submit" form="r_form">Sign up</button>
                         </div>
                         <!-- /.form-group -->
                     </form>

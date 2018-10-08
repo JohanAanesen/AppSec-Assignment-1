@@ -57,7 +57,7 @@ class TopicController extends ITable {
 
 	public function read_topic () {
 		try {
-			$stmt = $this->db->prepare( "SELECT topic.topicId, topic.categoryId, topic.userId AS topicUserId, topic.title AS topicTitle, topic.content AS topicContent, user.username AS topicUser, COUNT(reply.topicId LIKE topic.topicId) AS replies
+			$stmt = $this->db->prepare( "SELECT topic.topicId, topic.categoryId, topic.userId AS topicUserId, topic.title AS topicTitle, topic.content AS topicContent, COUNT(reply.topicId LIKE topic.topicId) AS replies
                                                     FROM $this->table
                                                     INNER JOIN user ON user.userId = topic.userId
                                                     LEFT JOIN reply ON topic.topicId = reply.topicId

@@ -153,4 +153,8 @@ class Application {
 	    return $this->replyController->read_repliesFromTopic($topicId);
     }
 
+    public function get_latestReplyFromTopic($topicId){
+	    return $this->replyController->read_latestReplyFromTopic($topicId);
+    }
+
 }

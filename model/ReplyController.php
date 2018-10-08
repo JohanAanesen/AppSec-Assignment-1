@@ -77,4 +77,27 @@ class ReplyController extends ITable {
             return array();
         }
     }
+
+    public function read_latestReplyFromTopic( $topicId ) {
+        try {
+            $stmt = $this->db->prepare( "SELECT reply.replyId, reply.userId AS replyUserId, reply.content AS replyTitle, reply.timestamp AS replyStamp, user.username AS replyUser
+                                                    FROM $this->table
+                                                    INNER JOIN user ON user.userId = reply.userId
+                                                    WHERE reply.topicId=:topID
+                                                    ORDER BY reply.timestamp DESC 
+                                                    LIMIT 1" );
+            $stmt->bindParam( ':topID', $topicId, PDO::PARAM_INT );
+
+            $stmt->execute();
+
+            $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+            return (!empty( $result )) ? $result[0] : $result;
+
+        } catch ( PDOException $e ) {
+            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+            Logger::write( $e->getMessage(), Logger::ERROR );
+            return array();
+        }
+    }
 }

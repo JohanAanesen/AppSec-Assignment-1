@@ -53,15 +53,16 @@
                 </div>
             </div>
             {% endfor %}
-            <p>Reply:</p>
         </div>
+        {% if loggedIn == true %}
+        <p>Reply:</p>
         <div class="input-group-text">
-
-            <form action="/newReply?topic=xxx" id="replyForm"></form>
-            <input type="hidden" name="{{user.id}}">
-            <textarea class="form-control"></textarea>
-            <button class="btn btn-lg btn-outline-success" type="submit" form="replyForm">Send</button>
+            <form action="/newReply?topicId={{ topic.topicId }}" id="n_reply"></form>
+            <input type="hidden" id="n_user" name="n_user" form="n_reply" value="{{user.userId}}">
+            <textarea name="n_content" id="n_content" class="form-control"></textarea>
+            <button class="btn btn-lg btn-outline-success" type="submit" form="n_reply">Send</button>
         </div>
+        {% endif %}
     </div>
 </div>
 

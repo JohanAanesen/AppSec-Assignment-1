@@ -6,47 +6,30 @@ class TopicController extends ITable {
 		parent::__construct( $db, $table );
 	}
 
-	public function create($topicId, $categoryId, $userId, $title, $content, $dateWritten, $editTimestamp) {
+	public function create($categoryId, $userId, $title, $content) {
 		try {
-			// check if topic exists
-			if ( $this->read_topicId( $topicId)) {
-				SessionManager::set_flashdata( 'warning_msg', 'topicId is already taken!' );
-				Logger::write( sprintf(  'Topic creation, topic already taken: "%s"', $topicId ), Logger::WARNING );
-				return false;
-			}
-			if ( $this->read_categoryId ($categoryId)){
-				SessionManager::set_flashdata( 'warning_msg', 'Category is already taken!' );
-				Logger::write( sprintf( 'Topic creation, topic already taken: "%s"', $categoryId ), Logger::WARNING );
-				return false;
-			}
-
 			// Set current date
-			$dateWritten = date('Y-m-d H:i:s');
+            $timestamp = date('Y-m-d H:i:s');
 
-			// prepare SQL queary and bind parameters
-			$stmt = $this->db->prepare( "INSERT INTO $this->table SET topicId=:topicId, categoryId=:categoryId, userId=:userId, title=:title, content:content, dateWritten:dateWritten, editTimestamp:editTimestamp" );
-			$stmt->bindParam( ':topicId', $topicId, PDO::PARAM_STR );
+			// prepare SQL query and bind parameters
+			$stmt = $this->db->prepare( "INSERT INTO $this->table SET categoryId=:categoryId, userId=:userId, title=:title, content=:content, timestamp=:timestamp, editTimestamp=:editTimestamp" );
 			$stmt->bindParam( ':categoryId', $categoryId, PDO::PARAM_STR );
 			$stmt->bindParam( ':userId', $userId, PDO::PARAM_STR );
 			$stmt->bindParam( ':title', $title, PDO::PARAM_STR );
 			$stmt->bindParam( ':content', $content, PDO::PARAM_STR );
-			$stmt->bindParam( ':dateWritten', $dateWritten, PDO::PARAM_STR );
-			$stmt->bindParam( ':editTimestamp', $editTimestamp, PDO::PARAM_STR );
+			$stmt->bindParam( ':timestamp', $timestamp, PDO::PARAM_STR );
+			$stmt->bindParam( ':editTimestamp', $timestamp, PDO::PARAM_STR );
 
 			// Check if execution went through
-			if ( $stmt->execute() ) {
-				$stmt = $this->db->prepare( "INSERT INTO topic SET topicId=:topicId, role=1" );
-				$stmt->bindParam( ":topicID", $this->db->lastInsertId(), PDO::PARAM_INT );
-				$stmt->execute();
-
-				SessionManager::set_flashdata( 'success_msg', 'Topic successfully created!' );
-				Logger::write( sprintf( 'New topic created: (%s, %s)', $topicId, $categoryId ), Logger::SUCCESS );
-				return true;
-
+			if ($stmt->execute()) {
+                SessionManager::set_flashdata( 'success_msg', 'Topic successfully created!' );
+                Logger::write( sprintf( 'New topic created: ( %s)', $categoryId ), Logger::SUCCESS );
+                return true;
 			} else {
-				SessionManager::set_flashdata( 'error_msg', 'Could not create topic!' );
-				Logger::write( sprintf( 'Attempt on creating topic failed: (IP: %s, topicId: %s, categoryId: %s)', $_SERVER['REMOTE_ADDR'], $topicId, $categoryId ), Logger::WARNING );
-				return false;
+			    print_r($stmt->errorInfo());
+                SessionManager::set_flashdata( 'error_msg', 'Could not create topic!' );
+                Logger::write( sprintf( 'Attempt on creating topic failed: (IP: %s, topicId: , categoryId: %s)', $_SERVER['REMOTE_ADDR'], $categoryId ), Logger::WARNING );
+                return false;
 			}
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );

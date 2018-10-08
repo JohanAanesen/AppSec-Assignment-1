@@ -97,6 +97,37 @@ class Application {
 		return $this->userController->create( $username, $email, $password );
 	}
 
+    /**
+     * @param $param
+     * @return null
+     */
+    public function requireParameter($param) {
+        $resultParam = null;
+        if (isset($_GET[$param])) {
+            $resultParam = $_GET[$param];
+        }
+        else if (isset($_POST[$param]) ) {
+            $resultParam = $_POST[$param];
+        }
+        else {
+            SessionManager::set_flashdata(SessionManager::ERROR, 'Something went wrong');
+            $this->redirect("/");
+        }
+        return $resultParam;
+    }
+
+    /**
+     * @param mixed ...$paramArray
+     * @return array
+     */
+    public function requireParameterArray(...$paramArray) {
+        $result = array();
+        foreach ($paramArray as $param) {
+            array_push($result, $this->requireParameter($param));
+        }
+        return $result;
+    }
+
 	public function get_users() {
 		return $this->userController->read();
 	}
@@ -155,6 +186,19 @@ class Application {
 
     public function get_latestReplyFromTopic($topicId){
 	    return $this->replyController->read_latestReplyFromTopic($topicId);
+    }
+
+    public function create_newReply($topicId, $userId, $content, $timestamp){
+	    //TODO: $this->replyController->create($topicId, $userId, $content, $timestamp);
+    }
+
+    public function create_newTopic($categoryId, $userId, $title, $content){
+	    $temp = $this->topicController->create($categoryId, $userId, $title, $content);
+        if($temp){
+            $this->redirect('/');
+        }else{
+            //$this->redirect('FUCKYOU');
+        }
     }
 
 }

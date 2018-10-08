@@ -7,6 +7,7 @@ $twig = $app->get_twig();
 
 $loggedIn = $app->is_logged_in();
 
+$user = SessionManager::get_userdata();
 
 $topics = null;
 $replies = null;
@@ -18,10 +19,10 @@ if(isset($_GET['id'])){
     $app->redirect("category");
 }
 
-
 echo $twig->render('topic.html', array(
     'title' => 'Horrible - Topic',
     'loggedIn' => $loggedIn,
     'topic' => $topic,
     'replies' => $replies,
+    'user' => $user,
 ));

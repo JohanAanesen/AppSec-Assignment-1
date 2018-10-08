@@ -8,3 +8,16 @@
 
 require_once '../model/Application.php';
 $app = Application::get_instance();
+
+
+
+list($topic, $user, $content) = $app->requireParameterArray(
+    'topicId',
+    'n_user',
+    'n_content'
+);
+
+$timestamp = date('Y-m-d H:i:s');
+
+$app->create_newReply($topic, $user, $content, $timestamp);
+

@@ -132,6 +132,22 @@ class CategoryController extends ITable {
         }
     }
 
+    public function read_topicsFromCategory( $categoryID ) {
+        try {
+            $stmt = $this->db->prepare( "SELECT category.categoryId, category.title
+                                                    FROM $this->table" );
+
+            $stmt->execute();
+
+            return $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        } catch ( PDOException $e ) {
+            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+            Logger::write( $e->getMessage(), Logger::ERROR );
+            return array();
+        }
+    }
+
 	public function update( $title, $newTitle ) {
 		try {
 			if(!$this->read_category( $title )) {

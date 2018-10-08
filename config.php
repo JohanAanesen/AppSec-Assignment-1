@@ -8,14 +8,14 @@ define( "DB_CHARSET", "utf8" );
 define( "ROOTPATH", __DIR__);
 
 require_once ROOTPATH . "/vendor/autoload.php";
-require_once ROOTPATH . "/classes/Database.php";
-require_once ROOTPATH . "/classes/ITable.php";
-require_once ROOTPATH . "/classes/UserController.php";
-require_once ROOTPATH . "/classes/CategoryController.php";
-require_once ROOTPATH . "/classes/TopicController.php";
-require_once ROOTPATH . "/classes/ReplyController.php";
-require_once ROOTPATH . "/classes/SessionManager.php";
-require_once ROOTPATH . "/classes/Logger.php";
+require_once ROOTPATH . "/model/Database.php";
+require_once ROOTPATH . "/model/ITable.php";
+require_once ROOTPATH . "/model/UserController.php";
+require_once ROOTPATH . "/model/CategoryController.php";
+require_once ROOTPATH . "/model/TopicController.php";
+require_once ROOTPATH . "/model/ReplyController.php";
+require_once ROOTPATH . "/model/SessionManager.php";
+require_once ROOTPATH . "/model/Logger.php";
 
 SessionManager::session_start( 'app' );
 

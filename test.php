@@ -1,8 +1,8 @@
 <?php
 
-require_once 'classes/Application.php';
-require_once 'classes/Logger.php';
-require_once 'classes/SessionManager.php';
+require_once 'model/Application.php';
+require_once 'model/Logger.php';
+require_once 'model/SessionManager.php';
 
 $app = Application::get_instance();
 

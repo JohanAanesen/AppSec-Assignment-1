@@ -118,7 +118,7 @@ class Application {
 	}
 
     public function get_twig() {
-        $path = ROOTPATH . "/twig/";
+        $path = ROOTPATH . "/assets/twig/";
         $loader = new Twig_Loader_Filesystem($path);
         return new Twig_Environment($loader, array(
             //    'cache' => './compilation_cache',

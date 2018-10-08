@@ -6,5 +6,5 @@
  * Time: 16:12
  */
 
-require_once '../classes/Application.php';
+require_once '../model/Application.php';
 $app = Application::get_instance();

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../classes/Application.php";
+require_once __DIR__ . "/../../model/Application.php";
 
 $app = Application::get_instance();
 $twig = $app->get_twig();

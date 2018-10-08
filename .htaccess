@@ -6,5 +6,6 @@ RewriteRule ^topic/?$               /view/topic/
 RewriteRule ^category/?$            /view/category/
 RewriteRule ^css/bootstrap.css$     /assets/css/bootstrap.css
 RewriteRule ^css/styles.css$        /assets/css/styles.css
-RewriteRule ^login/?$               /php/login.php
-RewriteRule ^register/?$            /php/register.php
+RewriteRule ^login/?$               /controller/login.php
+RewriteRule ^logout/?$              /controller/logout.php
+RewriteRule ^register/?$            /controller/register.php

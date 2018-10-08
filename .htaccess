@@ -4,3 +4,4 @@ RewriteRule ^/?$         /view/home/
 RewriteRule ^search/?$     /view/search/
 RewriteRule ^topic/?$     /view/topic/
 RewriteRule ^category/?$     /view/category/
+RewriteRule ^css/bootstrap.css$     /assets/css/bootstrap.css

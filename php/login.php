@@ -26,6 +26,6 @@ if ( !$app->is_logged_in() ) {
             // TODO: Go somewhere else
         }
     } else {
-        $app->redirect('/');
+        //$app->redirect('/');
     }
 }

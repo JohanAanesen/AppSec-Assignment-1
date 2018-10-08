@@ -17,6 +17,8 @@ require_once ROOTPATH . "/classes/ReplyController.php";
 require_once ROOTPATH . "/classes/SessionManager.php";
 require_once ROOTPATH . "/classes/Logger.php";
 
+SessionManager::session_start( 'app' );
+
 /*$db = new Database(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_CHARSET );
 $session = new Session();
 $userController = new User( $db->getDB(), "user" );

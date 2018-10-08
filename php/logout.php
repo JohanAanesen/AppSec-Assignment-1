@@ -8,3 +8,8 @@
 
 require_once '../classes/Application.php';
 $app = Application::get_instance();
+
+if ( $app->is_logged_in() ) {
+    $app->logout_user();
+    $app->redirect('/' );
+}

@@ -26,6 +26,6 @@ if ( ! $app->is_logged_in() ) {
 			$app->redirect( './' );
 		}
 	} else {
-		$app->redirect( '/' );
+		$app->redirect( './' );
 	}
 }

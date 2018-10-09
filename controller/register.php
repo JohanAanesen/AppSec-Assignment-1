@@ -17,12 +17,14 @@ if ( ! $app->is_logged_in() ) {
 
 		if ( $app->register_user( $username, $email, $password ) ) {
 			// TODO: Go to another page
-			$app->redirect( '/' );
+            $app->login_user($username, $password);
+			$app->redirect( './' );
+
 		} else {
 			// TODO: Go somewhere else
-			$app->redirect( '/' );
+			$app->redirect( './' );
 		}
 	} else {
-		$app->redirect( '/' );
+		$app->redirect( './' );
 	}
 }

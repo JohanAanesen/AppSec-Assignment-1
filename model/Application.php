@@ -228,4 +228,8 @@ class Application {
         return $this->replyController->delete($replyId, $topicId, $userId);
     }
 
+    public function delete_category($catId){
+	    return $this->categoryController->delete($catId);
+    }
+
 }

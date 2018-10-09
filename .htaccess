@@ -15,3 +15,4 @@ RewriteRule ^newTopic/?$            ./controller/newTopic.php
 RewriteRule ^newCategory/?$         ./controller/newCategory.php
 RewriteRule ^deleteTopic/?$         ./controller/deleteTopic.php
 RewriteRule ^deleteReply/?$         ./controller/deleteReply.php
+RewriteRule ^deleteCategory/?$      ./controller/deleteCategory.php

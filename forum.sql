@@ -91,6 +91,6 @@ INSERT INTO `category` (`title`) VALUE ('Kittenmittens');
 INSERT INTO `userrole` (userId, role) VALUES
 (1, 0),
 (2, 0),
-(3, 0),
+(3, 1),
 (4, 0),
 (5, 1);

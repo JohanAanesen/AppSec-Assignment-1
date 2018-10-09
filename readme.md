@@ -1,4 +1,4 @@
-Tools needed
+Tools needed:
 ---------------
 * XAMPP v3.2.2 (or similar php/apache engine)
 * Composer
@@ -12,3 +12,10 @@ Installation guide:
 * import forum.sql
 * open localhost/PATH_TO_CLONED_REPO
 * success!
+
+Other info:
+--------------
+* Admin user: johan password: johan
+* Categories can only be created by admins
+* Topics can be created by logged in users and admins
+* Replies ---||---

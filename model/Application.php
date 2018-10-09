@@ -226,6 +226,8 @@ class Application {
 	}
 
 	public function create_newCategory($title){
+	    $title = filter_var($title, FILTER_SANITIZE_STRING);
+
 	    return $this->categoryController->create($title);
     }
 

@@ -66,7 +66,7 @@ class Application {
 	 */
 	public function redirect( $path = '' ) {
 		$path = (empty($path)) ? __FILE__ : $path;
-		header('Location: ' . ROOTPATH . '/' . $path );
+		header('Location: ' . $path );
 	}
 
 	/**

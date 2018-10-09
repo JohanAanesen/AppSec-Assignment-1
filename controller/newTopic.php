@@ -17,4 +17,5 @@ list($category, $title, $content, $user) = $app->requireParameterArray(
 );
 
 $app->create_newTopic($category, $title, $content, SessionManager::get_userdata("userId"));
-//print_r(SessionManager::get_userdata("userId"));
+
+$app->redirect("./category?id=".$category);

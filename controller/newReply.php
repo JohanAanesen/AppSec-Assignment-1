@@ -21,3 +21,4 @@ $timestamp = date('Y-m-d H:i:s');
 
 $app->create_newReply($topic, $user, $content, $timestamp);
 
+$app->redirect("./topic?id=".$topic);

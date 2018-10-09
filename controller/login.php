@@ -21,7 +21,7 @@ if ( !$app->is_logged_in() ) {
                // $app->remember_user(); //TODO: rememberMe function :)
             }
             // TODO: Go to another page
-            $app->redirect('/' );
+            $app->redirect('./' );
         } else {
             // TODO: Go somewhere else
         }

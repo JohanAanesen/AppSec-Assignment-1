@@ -192,7 +192,7 @@ class Application {
 	    //TODO: $this->replyController->create($topicId, $userId, $content, $timestamp);
     }
 
-    public function create_newTopic($categoryId, $userId, $title, $content){
+    public function create_newTopic($categoryId, $title, $content, $userId){
 	    $temp = $this->topicController->create($categoryId, $userId, $title, $content);
         if($temp){
             $this->redirect('/');

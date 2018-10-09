@@ -33,6 +33,7 @@ foreach ($topics as $topic) {
 }
 
 $categoryList = $app->get_categories();
+$user = SessionManager::get_userdata();
 
 echo $twig->render('category.html', array(
     'title' => 'Horrible - Category',
@@ -41,4 +42,5 @@ echo $twig->render('category.html', array(
     'category' => $category,
     'createTopic' => $createTopic,
     'categoryList' => $categoryList,
+    'user' => $user,
 ));

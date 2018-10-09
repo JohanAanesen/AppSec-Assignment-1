@@ -12,13 +12,14 @@ class TopicController extends ITable {
             $timestamp = date('Y-m-d H:i:s');
 
 			// prepare SQL query and bind parameters
-			$stmt = $this->db->prepare( "INSERT INTO $this->table SET categoryId=:categoryId, userId=:userId, title=:title, content=:content, timestamp=:timestamp, editTimestamp=:editTimestamp" );
+			$stmt = $this->db->prepare( "INSERT INTO $this->table SET categoryId=:categoryId, userId=:userId, title=:title, content=:content, timestamp=:timestamp, editTimestamp=:editTimestamp " );
 			$stmt->bindParam( ':categoryId', $categoryId, PDO::PARAM_STR );
-			$stmt->bindParam( ':userId', $userId, PDO::PARAM_STR );
+			$stmt->bindParam( ':userId', $userId, PDO::PARAM_INT );
 			$stmt->bindParam( ':title', $title, PDO::PARAM_STR );
 			$stmt->bindParam( ':content', $content, PDO::PARAM_STR );
 			$stmt->bindParam( ':timestamp', $timestamp, PDO::PARAM_STR );
 			$stmt->bindParam( ':editTimestamp', $timestamp, PDO::PARAM_STR );
+
 
 			// Check if execution went through
 			if ($stmt->execute()) {

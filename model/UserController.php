@@ -26,9 +26,9 @@ class UserController extends ITable {
 	}
 
 	/**
-	 * @param string $username			- Account username
-	 * @param string $password			- Account hashed password
-	 * @return bool						- True if all is good, else return false.
+	 * @param string $username - Account username
+	 * @param string $password - Account hashed password
+	 * @return bool                        - True if all is good, else return false.
 	 */
 	public function login( $username, $password ) {
 		try {
@@ -41,7 +41,7 @@ class UserController extends ITable {
 			$user = $stmt->fetch( PDO::FETCH_ASSOC );
 
 			// Check if we retrieved anything from the database
-			if ( !empty( $user ) ) {
+			if ( ! empty( $user ) ) {
 
 				// Check if user has too many login attempts
 				if ( $user['loginAttempts'] >= 5 ) {
@@ -69,7 +69,7 @@ class UserController extends ITable {
 				} else {
 					// Increment failed login attempts
 					$user['loginAttempts']++;
-					$stmt = $this->db->prepare("UPDATE $this->table SET loginAttempts=:loginAttempts WHERE username=:username");
+					$stmt = $this->db->prepare( "UPDATE $this->table SET loginAttempts=:loginAttempts WHERE username=:username" );
 					$stmt->bindParam( ':loginAttempts', $user['loginAttempts'], PDO::PARAM_INT );
 					$stmt->bindParam( ':username', $username, PDO::PARAM_STR );
 					$stmt->execute();
@@ -115,10 +115,10 @@ class UserController extends ITable {
 			}
 
 			// Set current date
-			$date = date('Y-m-d');
+			$date = date( 'Y-m-d' );
 
 			// Encrypt password
-            $password = password_hash($password, PASSWORD_DEFAULT);
+			$password = password_hash( $password, PASSWORD_DEFAULT );
 
 			// Prepare SQL query and bind parameters
 			$stmt = $this->db->prepare( "INSERT INTO $this->table SET username=:username, email=:email, password=:password, dateJoined=:dateJoined, loginAttempts=0" );
@@ -174,7 +174,7 @@ class UserController extends ITable {
 
 			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-			return (!empty( $result )) ? $result[0] : $result;
+			return ( ! empty( $result ) ) ? $result[0] : $result;
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );
@@ -191,7 +191,7 @@ class UserController extends ITable {
 
 			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-			return (!empty( $result )) ? $result[0] : $result;
+			return ( ! empty( $result ) ) ? $result[0] : $result;
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );
@@ -208,7 +208,7 @@ class UserController extends ITable {
 
 			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-			return (!empty( $result )) ? $result[0] : $result;
+			return ( ! empty( $result ) ) ? $result[0] : $result;
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );

@@ -5,18 +5,18 @@
  */
 class SessionManager {
 
-	const SUCCESS 	= 'success_msg';
-	const WARNING 	= 'warning_msg';
-	const ERROR 	= 'error_msg';
+	const SUCCESS = 'success_msg';
+	const WARNING = 'warning_msg';
+	const ERROR = 'error_msg';
 
 	/**
 	 * Starts session
 	 *
-	 * @param string $name		- Name of the session
-	 * @param int    $limit		- Lifetime of session, in seconds
-	 * @param string $path		- Path on the domain where the session will work
-	 * @param string $domain	- Session domain
-	 * @param bool   $secure	- If true session will be sent over secure connections
+	 * @param string $name   - Name of the session
+	 * @param int    $limit  - Lifetime of session, in seconds
+	 * @param string $path   - Path on the domain where the session will work
+	 * @param string $domain - Session domain
+	 * @param bool   $secure - If true session will be sent over secure connections
 	 */
 	static function session_start( $name, $limit = 300, $path = '/', $domain = null, $secure = null ) {
 		// Set the cookie name before we start
@@ -36,14 +36,14 @@ class SessionManager {
 		if ( self::validate_session() ) {
 
 			// Check if session is new or a hijack attempt
-			if ( !self::prevent_hijacking() ) {
+			if ( ! self::prevent_hijacking() ) {
 				$_SESSION = array();
 				$_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'];
 				$_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 				self::regenerate_session();
 
-			// Give a 5% chance of session id changing or any request
-			} else if ( rand(1, 500) < 5 ) {
+				// Give a 5% chance of session id changing or any request
+			} else if ( rand( 1, 500 ) < 5 ) {
 				self::regenerate_session();
 			}
 		} else {
@@ -62,7 +62,7 @@ class SessionManager {
 	 */
 	static protected function prevent_hijacking() {
 		// Check if IP-Address and User-Agent is set.
-		if ( !isset( $_SESSION['ip_address'] ) || !isset( $_SESSION['user_agent'] ) ) {
+		if ( ! isset( $_SESSION['ip_address'] ) || ! isset( $_SESSION['user_agent'] ) ) {
 			return false;
 		}
 
@@ -90,7 +90,7 @@ class SessionManager {
 
 		// Set current session to expire in 60 seconds
 		$_SESSION['OBSOLETE'] = true;
-		$_SESSION['EXPIRES'] = time() + (60 * 1);
+		$_SESSION['EXPIRES'] = time() + ( 60 * 1 );
 
 		// Create new session without destroying the old one
 		session_regenerate_id( false );
@@ -115,7 +115,7 @@ class SessionManager {
 	 */
 	static protected function validate_session() {
 		// Checks if obsolete is set and if expires is not set
-		if ( isset( $_SESSION['OBSOLETE'] ) && !isset( $_SESSION['EXPIRES'] ) ) {
+		if ( isset( $_SESSION['OBSOLETE'] ) && ! isset( $_SESSION['EXPIRES'] ) ) {
 			return false;
 		}
 
@@ -137,8 +137,8 @@ class SessionManager {
 	/**
 	 * Sets flashdata to the session
 	 *
-	 * @param string $key   		- Key name
-	 * @param mixed  $value 		- Name
+	 * @param string $key   - Key name
+	 * @param mixed  $value - Name
 	 */
 	static function set_flashdata( $key, $value ) {
 		$_SESSION['flash_data'][$key] = $value;
@@ -147,15 +147,15 @@ class SessionManager {
 	/**
 	 * Retrieves flashdata if it is set in the session
 	 *
-	 * @param string $name			- Value name
-	 * @return array|string|null	- Return value
+	 * @param string $name - Value name
+	 * @return array|string|null    - Return value
 	 */
 	static function get_flashdata( $name = "" ) {
 		if ( isset( $_SESSION['flash_data'] ) && empty( $name ) ) {
 			return $_SESSION['flash_data'];
 		}
 
-		if ( isset( $_SESSION['flash_data'][$name] ) && !empty( $name ) ) {
+		if ( isset( $_SESSION['flash_data'][$name] ) && ! empty( $name ) ) {
 			return $_SESSION['flash_data'][$name];
 		}
 
@@ -165,7 +165,7 @@ class SessionManager {
 	/**
 	 * Sets userdata to session
 	 *
-	 * @param mixed  $value 		- Value
+	 * @param mixed $value - Value
 	 */
 	static function set_userdata( $value ) {
 		$_SESSION['user_data'] = $value;
@@ -174,15 +174,15 @@ class SessionManager {
 	/**
 	 * Retrieves userdata if it is set
 	 *
-	 * @param string $key 			- Key name
-	 * @return array|string|null	- Return value
+	 * @param string $key - Key name
+	 * @return array|string|null    - Return value
 	 */
 	static function get_userdata( $key = "" ) {
 		if ( isset( $_SESSION['user_data'] ) && empty( $key ) ) {
 			return $_SESSION['user_data'];
 		}
 
-		if ( isset( $_SESSION['user_data'][$key] ) && !empty( $key ) ) {
+		if ( isset( $_SESSION['user_data'][$key] ) && ! empty( $key ) ) {
 			return $_SESSION['user_data'][$key];
 		}
 

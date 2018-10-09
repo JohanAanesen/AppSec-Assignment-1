@@ -23,34 +23,34 @@ class Application {
 	 */
 	private $userController;
 
-    /**
-     * @var CategoryController
-     */
+	/**
+	 * @var CategoryController
+	 */
 	private $categoryController;
 
-    /**
-     * @var TopicController
-     */
+	/**
+	 * @var TopicController
+	 */
 	private $topicController;
 
-    /**
-     * @var ReplyController
-     */
+	/**
+	 * @var ReplyController
+	 */
 	private $replyController;
 
 	/**
 	 * Application constructor.
 	 */
 	protected function __construct() {
-		$this->db = new Database(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_CHARSET );
+		$this->db = new Database( DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_CHARSET );
 		$this->userController = new UserController( $this->db->getDB(), 'user' );
-		$this->categoryController= new CategoryController( $this->db->getDB(),'category');
-		$this->topicController = new TopicController($this->db->getDB(), 'topic');
-		$this->replyController = new ReplyController($this->db->getDB(), 'reply');
+		$this->categoryController = new CategoryController( $this->db->getDB(), 'category' );
+		$this->topicController = new TopicController( $this->db->getDB(), 'topic' );
+		$this->replyController = new ReplyController( $this->db->getDB(), 'reply' );
 	}
 
 	static public function get_instance() {
-		if ( !self::has_instance() ) {
+		if ( ! self::has_instance() ) {
 			self::$instance = new self();
 		}
 
@@ -65,8 +65,8 @@ class Application {
 	 * @param string $path
 	 */
 	public function redirect( $path = '' ) {
-		$path = (empty($path)) ? __FILE__ : $path;
-		header('Location: ' . $path );
+		$path = ( empty( $path ) ) ? __FILE__ : $path;
+		header( 'Location: ' . $path );
 	}
 
 	/**
@@ -97,36 +97,34 @@ class Application {
 		return $this->userController->create( $username, $email, $password );
 	}
 
-    /**
-     * @param $param
-     * @return null
-     */
-    public function requireParameter($param) {
-        $resultParam = null;
-        if (isset($_GET[$param])) {
-            $resultParam = $_GET[$param];
-        }
-        else if (isset($_POST[$param]) ) {
-            $resultParam = $_POST[$param];
-        }
-        else {
-            SessionManager::set_flashdata(SessionManager::ERROR, 'Something went wrong');
-            $this->redirect("./");
-        }
-        return $resultParam;
-    }
+	/**
+	 * @param $param
+	 * @return null
+	 */
+	public function requireParameter( $param ) {
+		$resultParam = null;
+		if ( isset( $_GET[$param] ) ) {
+			$resultParam = $_GET[$param];
+		} else if ( isset( $_POST[$param] ) ) {
+			$resultParam = $_POST[$param];
+		} else {
+			SessionManager::set_flashdata( SessionManager::ERROR, 'Something went wrong' );
+			$this->redirect( "./" );
+		}
+		return $resultParam;
+	}
 
-    /**
-     * @param mixed ...$paramArray
-     * @return array
-     */
-    public function requireParameterArray(...$paramArray) {
-        $result = array();
-        foreach ($paramArray as $param) {
-            array_push($result, $this->requireParameter($param));
-        }
-        return $result;
-    }
+	/**
+	 * @param mixed ...$paramArray
+	 * @return array
+	 */
+	public function requireParameterArray( ...$paramArray ) {
+		$result = array();
+		foreach ( $paramArray as $param ) {
+			array_push( $result, $this->requireParameter( $param ) );
+		}
+		return $result;
+	}
 
 	public function get_users() {
 		return $this->userController->read();
@@ -141,64 +139,63 @@ class Application {
 	}
 
 	public function is_logged_in() {
-		return !empty( SessionManager::get_userdata() );
+		return ! empty( SessionManager::get_userdata() );
 	}
 
 	public function get_user_role( $userId ) {
-		return ($this->userController->read_user_role( $userId ) == 1) ? 'user' : 'admin';
+		return ( $this->userController->read_user_role( $userId ) == 1 ) ? 'user' : 'admin';
 	}
 
-    public function get_twig() {
-        $path = ROOTPATH . "/assets/twig/";
-        $loader = new Twig_Loader_Filesystem($path);
-        return new Twig_Environment($loader, array(
-            //    'cache' => './compilation_cache',
-        ));
-    }
+	public function get_twig() {
+		$path = ROOTPATH . "/assets/twig/";
+		$loader = new Twig_Loader_Filesystem( $path );
+		return new Twig_Environment( $loader, array(//    'cache' => './compilation_cache',
+		) );
+	}
 
-    public function get_categories(){
-	    return $this->categoryController->read();
-    }
+	public function get_categories() {
+		return $this->categoryController->read();
+	}
 
-    public function get_category($catId){
-        return $this->categoryController->read_categoryFromId($catId);
-    }
+	public function get_category( $catId ) {
+		return $this->categoryController->read_categoryFromId( $catId );
+	}
 
-    public function get_topicId($id){
-	    return $this->topicController->read_topicId($id);
-    }
+	public function get_topicId( $id ) {
+		return $this->topicController->read_topicId( $id );
+	}
 
-    public function get_topics(){
-	    return $this->topicController->read_topic();
-    }
+	public function get_topics() {
+		return $this->topicController->read_topic();
+	}
 
-    public function get_topicsWithCategory($catId){
-	    return $this->topicController->read_topicsFromCategory($catId);
-    }
+	public function get_topicsWithCategory( $catId ) {
+		return $this->topicController->read_topicsFromCategory( $catId );
+	}
 
-    public function get_latestTopicFromCategory($catId){
-	    return $this->topicController->read_latestTopicFromCategory($catId);
-    }
+	public function get_latestTopicFromCategory( $catId ) {
+		return $this->topicController->read_latestTopicFromCategory( $catId );
+	}
 
-    public function get_replies($topicId){
-	    return $this->replyController->read_repliesFromTopic($topicId);
-    }
+	public function get_replies( $topicId ) {
+		return $this->replyController->read_repliesFromTopic( $topicId );
+	}
 
-    public function get_latestReplyFromTopic($topicId){
-	    return $this->replyController->read_latestReplyFromTopic($topicId);
-    }
+	public function get_latestReplyFromTopic( $topicId ) {
+		return $this->replyController->read_latestReplyFromTopic( $topicId );
+	}
 
-    public function create_newReply($topicId, $userId, $content){
-	    return $this->replyController->create($topicId, $userId, $content);
-    }
+	public function create_newReply( $topicId, $userId, $content ) {
+		return $this->replyController->create( $topicId, $userId, $content );
+	}
 
-    public function create_newTopic($categoryId, $title, $content, $userId){
-	    $temp = $this->topicController->create($categoryId, $userId, $title, $content);
-        if($temp){
-            $this->redirect('/');
-        }else{
-            //$this->redirect('FUCKYOU');
-        }
-    }
+	public function create_newTopic( $categoryId, $title, $content, $userId ) {
+		$temp = $this->topicController->create( $categoryId, $userId, $title, $content );
+		if ( $temp ) {
+			$this->redirect( '/' );
+		} else {
+			//$this->redirect('FUCKYOU');
+		}
+	}
 
 }

@@ -1,2 +1,2 @@
 <?php
-header("Location: /view/home");
+header( "Location: /view/home" );

@@ -13,7 +13,7 @@ abstract class ITable {
 
 	/**
 	 * User constructor.
-	 * @param $db PDO
+	 * @param $db    PDO
 	 * @param $table string
 	 */
 	public function __construct( $db, $table ) {

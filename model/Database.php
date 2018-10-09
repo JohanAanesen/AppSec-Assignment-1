@@ -29,11 +29,11 @@ class Database {
 		$this->charset = $charset;
 
 		try {
-			$dns = sprintf("mysql:host=%s;dbname=%s;charset=%s;", $this->hostname, $this->database, $this->charset);
-			$this->db = new PDO($dns, $this->username, $this->password);
+			$dns = sprintf( "mysql:host=%s;dbname=%s;charset=%s;", $this->hostname, $this->database, $this->charset );
+			$this->db = new PDO( $dns, $this->username, $this->password );
 
 
-		} catch (PDOException $e) {
+		} catch ( PDOException $e ) {
 			echo $e->getMessage();
 		}
 	}

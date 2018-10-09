@@ -5,7 +5,7 @@ define( "DB_USERNAME", "root" );
 define( "DB_PASSWORD", "" );
 define( "DB_DATABASE", "forum" );
 define( "DB_CHARSET", "utf8" );
-define( "ROOTPATH", __DIR__);
+define( "ROOTPATH", __DIR__ );
 
 require_once ROOTPATH . "/vendor/autoload.php";
 require_once ROOTPATH . "/model/Database.php";

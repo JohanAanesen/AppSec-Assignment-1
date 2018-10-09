@@ -8,22 +8,22 @@ class Logger {
 	/**
 	 * @var number
 	 */
-	const DEBUG 	= 1;
+	const DEBUG = 1;
 
 	/**
 	 * @var number
 	 */
-	const SUCCESS 	= 2;
+	const SUCCESS = 2;
 
 	/**
 	 * @var number
 	 */
-	const WARNING 	= 3;
+	const WARNING = 3;
 
 	/**
 	 * @var number
 	 */
-	const ERROR 	= 4;
+	const ERROR = 4;
 
 	/**
 	 * Skeleton object
@@ -61,8 +61,8 @@ class Logger {
 	protected function __construct() {
 		$this->path = sprintf( ROOTPATH . '/logs/%s/%s/', date( 'Y' ), date( 'm' ) );
 
-		if ( !file_exists( $this->path ) ) {
-			mkdir ( $this->path, 0777, true );
+		if ( ! file_exists( $this->path ) ) {
+			mkdir( $this->path, 0777, true );
 		}
 
 		try {
@@ -85,7 +85,7 @@ class Logger {
 	 * Return a static instance of the class
 	 */
 	static protected function get_instance() {
-		if ( !self::has_instance() ) {
+		if ( ! self::has_instance() ) {
 			self::$instance = new self();
 		}
 
@@ -104,7 +104,7 @@ class Logger {
 	/**
 	 * Sets the file name
 	 *
-	 * @param string $filename			- Filename
+	 * @param string $filename - Filename
 	 */
 	static function set_filename( $filename ) {
 		self::$filename = $filename;
@@ -126,8 +126,8 @@ class Logger {
 	/**
 	 * Writes a line, with different type of message based on the level of the message.
 	 *
-	 * @param string $message			- Message
-	 * @param number $level				- Type of message
+	 * @param string $message - Message
+	 * @param number $level   - Type of message
 	 */
 	protected function write_line( $message, $level ) {
 		$date = date( "d/m/Y H:i:s" );
@@ -162,8 +162,8 @@ class Logger {
 	/**
 	 * Calls the non-static write_line function, with a static function.
 	 *
-	 * @param string $message			- Message
-	 * @param number $level				- Type of message
+	 * @param string $message - Message
+	 * @param number $level   - Type of message
 	 */
 	static public function write( $message, $level = self::DEBUG ) {
 		self::get_instance()->write_line( $message, $level );

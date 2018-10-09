@@ -6,10 +6,10 @@ class TopicController extends ITable {
 		parent::__construct( $db, $table );
 	}
 
-	public function create($categoryId, $userId, $title, $content) {
+	public function create( $categoryId, $userId, $title, $content ) {
 		try {
 			// Set current date
-            $timestamp = date('Y-m-d H:i:s');
+			$timestamp = date( 'Y-m-d H:i:s' );
 
 			// prepare SQL query and bind parameters
 			$stmt = $this->db->prepare( "INSERT INTO $this->table SET categoryId=:categoryId, userId=:userId, title=:title, content=:content, timestamp=:timestamp, editTimestamp=:editTimestamp " );
@@ -22,15 +22,15 @@ class TopicController extends ITable {
 
 
 			// Check if execution went through
-			if ($stmt->execute()) {
-                SessionManager::set_flashdata( 'success_msg', 'Topic successfully created!' );
-                Logger::write( sprintf( 'New topic created: ( %s)', $categoryId ), Logger::SUCCESS );
-                return true;
+			if ( $stmt->execute() ) {
+				SessionManager::set_flashdata( 'success_msg', 'Topic successfully created!' );
+				Logger::write( sprintf( 'New topic created: ( %s)', $categoryId ), Logger::SUCCESS );
+				return true;
 			} else {
-			    print_r($stmt->errorInfo());
-                SessionManager::set_flashdata( 'error_msg', 'Could not create topic!' );
-                Logger::write( sprintf( 'Attempt on creating topic failed: (IP: %s, topicId: , categoryId: %s)', $_SERVER['REMOTE_ADDR'], $categoryId ), Logger::WARNING );
-                return false;
+				print_r( $stmt->errorInfo() );
+				SessionManager::set_flashdata( 'error_msg', 'Could not create topic!' );
+				Logger::write( sprintf( 'Attempt on creating topic failed: (IP: %s, topicId: , categoryId: %s)', $_SERVER['REMOTE_ADDR'], $categoryId ), Logger::WARNING );
+				return false;
 			}
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
@@ -39,7 +39,7 @@ class TopicController extends ITable {
 		}
 	}
 
-	public function read_topic () {
+	public function read_topic() {
 		try {
 			$stmt = $this->db->prepare( "SELECT topic.topicId, topic.categoryId, topic.userId AS topicUserId, topic.title AS topicTitle, topic.content AS topicContent, COUNT(reply.topicId LIKE topic.topicId) AS replies
                                                     FROM $this->table
@@ -70,7 +70,7 @@ class TopicController extends ITable {
 
 			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-			return (!empty( $result )) ? $result[0] : $result;
+			return ( ! empty( $result ) ) ? $result[0] : $result;
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );
@@ -78,62 +78,63 @@ class TopicController extends ITable {
 		}
 	}
 
-    public function read_latestTopicFromCategory( $categoryID ) {
-        try {
-            $stmt = $this->db->prepare( "SELECT topic.topicId, topic.userId, topic.title AS topicTitle, topic.timestamp AS topicTimestamp, user.username AS topicUser
+	public function read_latestTopicFromCategory( $categoryID ) {
+		try {
+			$stmt = $this->db->prepare( "SELECT topic.topicId, topic.userId, topic.title AS topicTitle, topic.timestamp AS topicTimestamp, user.username AS topicUser
                                                     FROM $this->table
                                                     INNER JOIN user ON user.userId = topic.userId
                                                     WHERE topic.categoryId=:catID
                                                     ORDER BY topic.timestamp DESC 
                                                     LIMIT 1" );
-            $stmt->bindParam( ':catID', $categoryID, PDO::PARAM_INT );
+			$stmt->bindParam( ':catID', $categoryID, PDO::PARAM_INT );
 
-            $stmt->execute();
+			$stmt->execute();
 
-            $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-            return (!empty( $result )) ? $result[0] : $result;
+			return ( ! empty( $result ) ) ? $result[0] : $result;
 
-        } catch ( PDOException $e ) {
-            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
-            Logger::write( $e->getMessage(), Logger::ERROR );
-            return array();
-        }
-    }
+		} catch ( PDOException $e ) {
+			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+			Logger::write( $e->getMessage(), Logger::ERROR );
+			return array();
+		}
+	}
 
-    public function read_topicsFromCategory( $categoryID ) {
-        try {
-            $stmt = $this->db->prepare( "SELECT topic.topicId, topic.categoryId, topic.userId AS topicUserId, topic.title AS topicTitle, topic.content AS topicContent, user.username AS topicUser, COUNT(reply.topicId LIKE topic.topicId) AS replies
+	public function read_topicsFromCategory( $categoryID ) {
+		try {
+			$stmt = $this->db->prepare( "SELECT topic.topicId, topic.categoryId, topic.userId AS topicUserId, topic.title AS topicTitle, topic.content AS topicContent, user.username AS topicUser, COUNT(reply.topicId LIKE topic.topicId) AS replies
                                                     FROM $this->table
                                                     INNER JOIN user ON user.userId = topic.userId
                                                     LEFT JOIN reply ON topic.topicId = reply.topicId
                                                     WHERE topic.categoryId=:catID
                                                     GROUP BY topic.topicId" );
-            $stmt->bindParam( ':catID', $categoryID, PDO::PARAM_INT );
+			$stmt->bindParam( ':catID', $categoryID, PDO::PARAM_INT );
 
-            $stmt->execute();
+			$stmt->execute();
 
-            return $stmt->fetchAll( PDO::FETCH_ASSOC );
+			return $stmt->fetchAll( PDO::FETCH_ASSOC );
 
-        } catch ( PDOException $e ) {
-            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
-            Logger::write( $e->getMessage(), Logger::ERROR );
-            return array();
-        }
-    }
-/*	public function update( $args ) {
-		try {
-			// Make code for this
 		} catch ( PDOException $e ) {
 			SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
 			Logger::write( $e->getMessage(), Logger::ERROR );
-			return false;
+			return array();
 		}
-	}*/
+	}
+
+	/*	public function update( $args ) {
+			try {
+				// Make code for this
+			} catch ( PDOException $e ) {
+				SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+				Logger::write( $e->getMessage(), Logger::ERROR );
+				return false;
+			}
+		}*/
 
 	public function delete( $topicId ) {
 		try {
-			$stmt = $this->db->prepare( "DELETE FROM $this->table WHERE topicId=:topicId");
+			$stmt = $this->db->prepare( "DELETE FROM $this->table WHERE topicId=:topicId" );
 
 			return $stmt->execute();
 		} catch ( PDOException $e ) {
@@ -146,14 +147,14 @@ class TopicController extends ITable {
 	/**
 	 * DATABASE TABLE:
 	 *
-	 * NAME				TYPE		KEY-TYPE		VARIABLE
-	 * topicId			INT			PRIMARY KEY
-	 * categoryId		INT			FOREIGN KEY
-	 * userId			INT			FOREIGN KEY
-	 * title			VARCHAR
-	 * content			TEXT
-	 * timestamp		TIMESTAMP					date('Y-m-d H:i:s')
-	 * editTimestamp	TIMESTAMP					NULL
+	 * NAME                TYPE        KEY-TYPE        VARIABLE
+	 * topicId            INT            PRIMARY KEY
+	 * categoryId        INT            FOREIGN KEY
+	 * userId            INT            FOREIGN KEY
+	 * title            VARCHAR
+	 * content            TEXT
+	 * timestamp        TIMESTAMP                    date('Y-m-d H:i:s')
+	 * editTimestamp    TIMESTAMP                    NULL
 	 */
 
 	// TODO: Make create, read, update, delete functions for topics

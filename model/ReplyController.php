@@ -131,4 +131,28 @@ class ReplyController extends ITable {
 			return array();
 		}
 	}
+
+    public function deleteRepliesFromTopic( $topicId ) {
+	    $success = false;
+        $this->db->beginTransaction();
+
+        try {
+            $stmt = $this->db->prepare( "DELETE FROM $this->table WHERE topicId=:topicId" );
+
+            $stmt->bindParam( ':topicId', $topicId, PDO::PARAM_INT );
+
+            if($stmt->execute()){
+                $success = true;
+            }
+        } catch ( PDOException $e ) {
+            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+            Logger::write( $e->getMessage(), Logger::ERROR );
+            $this->db->rollBack();
+            return false;
+        }
+
+        $this->db->commit();
+
+        return $success;
+    }
 }

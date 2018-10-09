@@ -13,6 +13,13 @@
                         {{ topic.topicTitle }}
                         <small> - {{ topic.topicTimestamp }}</small>
                     </h5>
+                    {% if owner == true %}
+                    <form method="post" action="./deleteTopic" id="deleteTopic">
+                        <input type="hidden" id="topicId" name="topicId" value="{{ topic.topicId }}" form="deleteTopic">
+                        <input type="hidden" id="userId" name="userId" value="{{ user.userId }}" form="deleteTopic">
+                    <button class="btn btn-danger" type="submit" form="deleteTopic"></button>
+                    </form>
+                    {% endif %}
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">

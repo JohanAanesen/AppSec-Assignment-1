@@ -87,3 +87,5 @@ INSERT INTO `user` (`username`, `email`, `password`, `dateJoined`, `loginAttempt
 ('johan', 'johan@hotmail.no', '$2y$10$XPnAtvgzY9ZLFjrF1ZnYG.7NyobxL6HLhZlNBnZhpPvP1zNA5LuMC', '2018-10-09', 0);
 
 INSERT INTO `category` (`title`) VALUE ('Kittenmittens');
+
+INSERT INTO `userrole` (userId, role) VALUE ()

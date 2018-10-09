@@ -198,4 +198,21 @@ class Application {
 
 	}
 
+	public function delete_topic($topicId, $userId){
+	    $topic = $this->topicController->read_topicId($topicId);
+	    if($topic['topicUserId'] == $userId){
+	        if($this->delete_replies($topicId)){
+                return $this->topicController->delete($topicId);
+            }
+        }else{
+	        printf("suck it");
+        }
+
+        return false;
+    }
+
+    public function delete_replies($topicId){
+	    return $this->replyController->deleteRepliesFromTopic($topicId);
+    }
+
 }

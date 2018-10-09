@@ -75,6 +75,7 @@ class Application {
 	 * @return bool
 	 */
 	public function login_user( $username, $password ) {
+	    //TODO: Sanitize input $username and $password
 		return $this->userController->login( $username, $password );
 	}
 
@@ -186,16 +187,15 @@ class Application {
 	}
 
 	public function create_newReply( $topicId, $userId, $content ) {
+	    //TODO: Sanitize input from $content
 		return $this->replyController->create( $topicId, $userId, $content );
 	}
 
 	public function create_newTopic( $categoryId, $title, $content, $userId ) {
-		$temp = $this->topicController->create( $categoryId, $userId, $title, $content );
-		if ( $temp ) {
-			$this->redirect( '/' );
-		} else {
-			//$this->redirect('FUCKYOU');
-		}
+	    //TODO: Sanitize input from $title and $content
+
+		return $this->topicController->create( $categoryId, $userId, $title, $content );
+
 	}
 
 }

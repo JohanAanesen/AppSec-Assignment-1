@@ -203,6 +203,10 @@ class Application {
 
 	}
 
+	public function create_newCategory($title){
+	    $this->categoryController->create($title);
+    }
+
 	public function delete_topic($topicId, $userId){
 	    $topic = $this->topicController->read_topicId($topicId);
 	    if($topic['topicUserId'] == $userId){

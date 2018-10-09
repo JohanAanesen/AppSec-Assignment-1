@@ -22,28 +22,24 @@ class CategoryController extends ITable {
 
 	public function create( $title ) {
 		try {
-
-			if ( sizeof( $title ) < 3 ) {
+			if ( strlen( $title ) < 3 ) {
 				SessionManager::set_flashdata( 'error_msg', "Input too short" );
 				Logger::write( sprintf( 'Create Category, Input too short: "%s"', $title ) );
 
 				return false;
 
 			}
-
 			//Sjekker om kategorien finnes
 			if ( $this->read_category( $title ) ) {
 				SessionManager::set_flashdata( 'error_msg', "Category already exists" );
 				Logger::write( sprintf( 'Category creation, category already exists: "%s"', $title ) );
 				return false;
 			}
-
 			$stmt = $this->db->prepare( "INSERT INTO $this->table SET title=:title" );
 
 			$stmt->bindParam( 'title', $title, PDO::PARAM_STR );
 
 			if ( $stmt->execute() ) {
-
 				SessionManager::set_flashdata( 'success_msg', 'Category successfully created!' );
 				Logger::write( sprintf( 'New category created: "%s"', $title ), Logger::SUCCESS );
 				return true;

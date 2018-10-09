@@ -9,4 +9,14 @@
 require_once '../model/Application.php';
 $app = Application::get_instance();
 
-//TODO: this
+
+list( $title, $userId ) = $app->requireParameterArray(
+    'c_title',
+    'c_user'
+);
+
+if($app->get_user_role($userId) == 'admin'){
+    $app->create_newCategory( $title );
+}
+
+$app->redirect( "./");

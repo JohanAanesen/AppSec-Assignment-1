@@ -144,7 +144,12 @@ class Application {
 	}
 
 	public function get_user_role( $userId ) {
-		return ( $this->userController->read_user_role( $userId ) == 1 ) ? 'user' : 'admin';
+		$role = $this->userController->read_user_role( $userId );
+	    if($role['role'] == 1){
+	        return 'admin';
+        }else {
+            return 'user';
+        }
 	}
 
 	public function get_twig() {
@@ -208,5 +213,34 @@ class Application {
 		return $this->topicController->create( $categoryId, $userId, $title, $content );
 
 	}
+
+	public function create_newCategory($title){
+	    $this->categoryController->create($title);
+    }
+
+	public function delete_topic($topicId, $userId){
+	    $topic = $this->topicController->read_topicId($topicId);
+	    if($topic['topicUserId'] == $userId){
+	        if($this->delete_replies($topicId)){
+                return $this->topicController->delete($topicId);
+            }
+        }else{
+	        printf("suck it");
+        }
+
+        return false;
+    }
+
+    public function delete_replies($topicId){
+	    return $this->replyController->deleteRepliesFromTopic($topicId);
+    }
+
+    public function delete_reply($topicId, $userId, $replyId){
+        return $this->replyController->delete($replyId, $topicId, $userId);
+    }
+
+    public function delete_category($catId){
+	    return $this->categoryController->delete($catId);
+    }
 
 }

@@ -21,6 +21,11 @@
                         <th>
                             LAST TOPIC
                         </th>
+                        {% if admin == true %}
+                        <th>
+
+                        </th>
+                        {% endif %}
                         </thead>
                         <tbody>
                         {% for categoryTableRow in categoryTableRows %}
@@ -37,6 +42,36 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+
+    {% if admin == true %}
+
+        <div class="card">
+            <h5 class="card-header">
+                Create New Category
+            </h5>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <form action="./newCategory" method="post" id="categoryForm">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="c_title">Title:</label>
+                            <input type="text" name="c_title" id="c_title" class="form-control" form="categoryForm">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <button class="btn btn-success" form="categoryForm">Submit</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="c_user" id="c_user" form="categoryForm" value="{{ user.userId }}">
+                </form>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+    {% endif %}
+
 </div>
 
 <!-- /.container -->

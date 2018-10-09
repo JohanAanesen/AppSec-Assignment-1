@@ -24,4 +24,13 @@
         <br>
         <small>{{ categoryTableRow.topicTimestamp }}</small>
     </td>
+    {% if admin == true %}
+        <td>
+            <form method="post" action="./deleteCategory" id="deleteForm">
+                <input type="hidden" name="d_catId" id="d_catId" value="{{ categoryTableRow.categoryId }}">
+                <input type="hidden" name="d_userId" id="d_userId" value="{{ user.userId }}">
+                <button class="btn btn-danger" form="deleteForm" type="submit">X</button>
+            </form>
+        </td>
+    {% endif %}
 </tr>

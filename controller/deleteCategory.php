@@ -2,21 +2,20 @@
 /**
  * Created by IntelliJ IDEA.
  * User: Johan Aanesen
- * Date: 10/8/2018
- * Time: 16:11
+ * Date: 10/9/2018
+ * Time: 16:17
  */
 
 require_once '../model/Application.php';
 $app = Application::get_instance();
 
-
-list( $title, $userId ) = $app->requireParameterArray(
-    'c_title',
-    'c_user'
+list( $catId, $userId ) = $app->requireParameterArray(
+    'd_catId',
+    'd_userId'
 );
 
 if($app->get_user_role($userId) == 'admin'){
-    $app->create_newCategory( $title );
+    $app->delete_category( $catId );
 }
 
 $app->redirect( "./");

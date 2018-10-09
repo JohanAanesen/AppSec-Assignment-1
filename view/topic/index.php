@@ -9,14 +9,28 @@ $loggedIn = $app->is_logged_in();
 
 $user = SessionManager::get_userdata();
 
+$userRole = false;
+if($loggedIn){
+    $userRole = $app->get_user_role($user['userId']);
+}
+
 $topics = null;
 $replies = null;
 if ( isset( $_GET['id'] ) ) {
 	$id = $_GET['id'];
 	$topic = $app->get_topicId( $id );
+
+	if($topic == null){
+	    $app->redirect("./category");
+    }
 	$replies = $app->get_replies( $id );
 } else {
-	$app->redirect( "category" );
+	$app->redirect( "./category" );
+}
+
+$owner = false;
+if($user['userId'] == $topic['topicUserId'] || $userRole == 'admin'){
+    $owner = true;
 }
 
 try {
@@ -26,6 +40,7 @@ try {
 		'topic' => $topic,
 		'replies' => $replies,
 		'user' => $user,
+        'owner' => $owner,
 	) );
 } catch ( Twig_Error_Loader $e ) {
 	echo $e->getMessage();

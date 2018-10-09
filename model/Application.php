@@ -75,7 +75,14 @@ class Application {
 	 * @return bool
 	 */
 	public function login_user( $username, $password ) {
-	    //TODO: Sanitize input $username and $password
+
+        $username = filter_var($username, FILTER_SANITIZE_STRING);
+        $password = filter_var($password, FILTER_SANITIZE_STRING);
+
+        if ($username === false || $password === false)
+        { echo "Something is wrong with one or more of your inputs"; } //No output
+
+        else
 		return $this->userController->login( $username, $password );
 	}
 
@@ -195,8 +202,8 @@ class Application {
 
         $content = filter_var($content, FILTER_SANITIZE_STRING);
 
-        if ($content === false)                                         // kommentar
-         { echo "Something is wrong with one or more of your inputs"; } //Får kanskje ikke lov å gjøre echo her?
+        if ($content === false)
+         { echo "Something is wrong with one or more of your inputs"; } //No output
         else
             return $this->replyController->create( $topicId, $userId, $content );
 	}
@@ -206,8 +213,8 @@ class Application {
         $content = filter_var($title, FILTER_SANITIZE_STRING);
         $content = filter_var($content, FILTER_SANITIZE_STRING);
 
-        if ($title === false || $content === false)                     // kommentar
-        { echo "Something is wrong with one or more of your inputs"; } //Får kanskje ikke lov å gjøre echo her?
+        if ($title === false || $content === false)
+        { echo "Something is wrong with one or more of your inputs"; } //No output
 
         else
 		return $this->topicController->create( $categoryId, $userId, $title, $content );

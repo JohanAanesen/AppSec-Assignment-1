@@ -59,14 +59,14 @@ class Logger {
 	 * Creates new folder and/or file for the current date, month and year.
 	 */
 	protected function __construct() {
-		$this->path = sprintf( 'logs/%s/%s/', date( 'Y' ), date( 'm' ) );
+		$this->path = sprintf( ROOTPATH . '/logs/%s/%s/', date( 'Y' ), date( 'm' ) );
 
 		if ( !file_exists( $this->path ) ) {
 			mkdir ( $this->path, 0777, true );
 		}
 
 		try {
-			$this->file = fopen( "logs/" . date( "Y/m/" ) . self::get_filename(), "a+" );
+			$this->file = fopen( ROOTPATH . "/logs/" . date( "Y/m/" ) . self::get_filename(), "a+" );
 		} catch ( RuntimeException $e ) {
 			printf( "Could not open file \"%s\" for writing.", self::get_filename() );
 		}

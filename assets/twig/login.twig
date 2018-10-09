@@ -1,0 +1,30 @@
+<div class="card mb-3 border-dark">
+    <h5 class="card-header bg-dark text-light">
+        Sign in
+    </h5>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <form action="../../controller/login.php" method="post" id="l_form">
+            <div class="form-group">
+                <label for="l_username">Username</label>
+                <input type="text" name="l_username" id="l_username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="l_password">Password</label>
+                <input type="password" name="l_password" id="l_password" class="form-control" required>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" name="l_remember" id="l_remember" class="form-check-input">
+                <label for="l_remember" class="form-check-label">Remember me</label>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-dark btn-block" name="l_signin" id="l_signin" type="submit" form="l_form">
+                    Sign in
+                </button>
+            </div>
+            <!-- /.form-group -->
+        </form>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->

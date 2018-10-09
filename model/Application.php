@@ -202,27 +202,31 @@ class Application {
 
         $content = filter_var($content, FILTER_SANITIZE_STRING);
 
-        if ($content === false)
-         { echo "Something is wrong with one or more of your inputs"; } //No output
-        else
-            return $this->replyController->create( $topicId, $userId, $content );
+        if ($content === false){
+            echo "Something is wrong with one or more of your inputs";
+        }else {
+            return $this->replyController->create($topicId, $userId, $content);
+        }
+
+        return false;
 	}
 
 	public function create_newTopic( $categoryId, $title, $content, $userId ) {
 
-        $content = filter_var($title, FILTER_SANITIZE_STRING);
+        $title = filter_var($title, FILTER_SANITIZE_STRING);
         $content = filter_var($content, FILTER_SANITIZE_STRING);
 
-        if ($title === false || $content === false)
-        { echo "Something is wrong with one or more of your inputs"; } //No output
+        if ($title === false || $content === false) {
+            echo "Something is wrong with one or more of your inputs";
+        }else{
+            return $this->topicController->create( $categoryId, $userId, $title, $content );
+        }
 
-        else
-		return $this->topicController->create( $categoryId, $userId, $title, $content );
-
+        return false;
 	}
 
 	public function create_newCategory($title){
-	    $this->categoryController->create($title);
+	    return $this->categoryController->create($title);
     }
 
 	public function delete_topic($topicId, $userId){

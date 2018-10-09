@@ -10,30 +10,32 @@
 
                 <div class="card">
                     <h5 class="card-header">
-                        {{ topic.topicTitle }}
+                        <div class="row">
+                        <div class="col-md-10">
+                            <a href="./user?id={{ topic.userId }}" style="text-decoration: none; color:black;">
+                                {{ topic.topicUser }}
+                            </a>
                         <small> - {{ topic.topicTimestamp }}</small>
+                        </div>
+                            <div class="col-md-2">
+                            {% if owner == true %}
+                                <form method="post" action="./deleteTopic" id="deleteTopic">
+                                    <input type="hidden" id="topicId" name="topicId" value="{{ topic.topicId }}" form="deleteTopic">
+                                    <input type="hidden" id="userId" name="userId" value="{{ user.userId }}" form="deleteTopic">
+                                    <button class="btn btn-danger" type="submit" form="deleteTopic">Delete Topic</button>
+                                </form>
+                            {% endif %}
+                            </div>
+                        </div>
                     </h5>
-                    {% if owner == true %}
-                    <form method="post" action="./deleteTopic" id="deleteTopic">
-                        <input type="hidden" id="topicId" name="topicId" value="{{ topic.topicId }}" form="deleteTopic">
-                        <input type="hidden" id="userId" name="userId" value="{{ user.userId }}" form="deleteTopic">
-                    <button class="btn btn-danger" type="submit" form="deleteTopic"></button>
-                    </form>
-                    {% endif %}
+
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <h4>
-                                    <a href="./user?id={{ topic.userId }}">
-                                        {{ topic.topicUser }}
-                                    </a>
-                                </h4>
-
-                                <hr>
 
                                 <h2>{{ topic.topicTitle }}</h2>
-
+                                <hr>
                                 <p class="lead">{{ topic.topicContent }}</p>
 
                                 <!-- <img width="200px" height="200px" src="http://placehold.it/1920x1080?text=Go shit compiler"
@@ -56,11 +58,28 @@
             <div class="col-md-12">
                 {% for reply in replies %}
                     <div class="card">
-                        <div class="card-header"><a href="./user?id={{ reply.userId }}">{{ reply.username }}</a></div>
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <a href="./user?id={{ reply.userId }}" style="text-decoration: none; color:black;">
+                                        {{ reply.username }}
+                                    </a>
+                                    <small> - {{ reply.timestamp }}</small>
+                                </div>
+                                <div class="col-md-2">
+                                    {% if reply.userId == user.userId %}
+                                        <form method="post" action="./deleteReply" id="deleteReply">
+                                            <input type="hidden" id="topicId" name="topicId" value="{{ topic.topicId }}" form="deleteReply">
+                                            <input type="hidden" id="userId" name="userId" value="{{ reply.userId }}" form="deleteReply">
+                                            <input type="hidden" id="replyId" name="replyId" value="{{ reply.replyId }}" form="deleteReply">
+                                            <button class="btn btn-danger" type="submit" form="deleteReply">Delete Reply</button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <p>{{ reply.content }}</p>
-                            <br>
-                            <small>{{ reply.timestamp }}</small>
                         </div>
                     </div>
                 {% endfor %}

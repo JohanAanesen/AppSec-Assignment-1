@@ -16,8 +16,10 @@ list( $topicId, $userId ) = $app->requireParameterArray(
 
 
 if($app->delete_topic($topicId, $userId)){
+    //TODO: set flashdata success
     $app->redirect( "./category");
 }else{
+    //TODO: set flashdata error
     $app->redirect("./topic?id=".$topicId);
 }
 

@@ -12,4 +12,5 @@ RewriteRule ^logout/?$              ./controller/logout.php
 RewriteRule ^register/?$            ./controller/register.php
 RewriteRule ^newReply/?$            ./controller/newReply.php
 RewriteRule ^newTopic/?$            ./controller/newTopic.php
-RewriteRule ^deleteTopic/?$            ./controller/deleteTopic.php
+RewriteRule ^deleteTopic/?$         ./controller/deleteTopic.php
+RewriteRule ^deleteReply/?$         ./controller/deleteReply.php

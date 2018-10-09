@@ -88,4 +88,9 @@ INSERT INTO `user` (`username`, `email`, `password`, `dateJoined`, `loginAttempt
 
 INSERT INTO `category` (`title`) VALUE ('Kittenmittens');
 
-INSERT INTO `userrole` (userId, role) VALUE ()
+INSERT INTO `userrole` (userId, role) VALUES
+(1, 0),
+(2, 0),
+(3, 0),
+(4, 0),
+(5, 1);

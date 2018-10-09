@@ -9,6 +9,10 @@ $loggedIn = $app->is_logged_in();
 
 $user = SessionManager::get_userdata();
 
+$userRole = false;
+if($loggedIn){
+    $userRole = $app->get_user_role($user['userId']);
+}
 
 $topics = null;
 $replies = null;
@@ -25,7 +29,7 @@ if ( isset( $_GET['id'] ) ) {
 }
 
 $owner = false;
-if($user['userId'] == $topic['topicUserId']){
+if($user['userId'] == $topic['topicUserId'] || $userRole == 'admin'){
     $owner = true;
 }
 

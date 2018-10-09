@@ -144,7 +144,12 @@ class Application {
 	}
 
 	public function get_user_role( $userId ) {
-		return ( $this->userController->read_user_role( $userId ) == 1 ) ? 'user' : 'admin';
+		$role = $this->userController->read_user_role( $userId );
+	    if($role['role'] == 1){
+	        return 'admin';
+        }else {
+            return 'user';
+        }
 	}
 
 	public function get_twig() {
@@ -213,6 +218,10 @@ class Application {
 
     public function delete_replies($topicId){
 	    return $this->replyController->deleteRepliesFromTopic($topicId);
+    }
+
+    public function delete_reply($topicId, $userId, $replyId){
+        return $this->replyController->delete($replyId, $topicId, $userId);
     }
 
 }

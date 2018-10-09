@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <a href="/topic?id={{ topic.topicId }}">
+        <a href="./topic?id={{ topic.topicId }}">
             <strong>
                 {{ topic.topicTitle }}
             </strong>
@@ -14,13 +14,13 @@
         {{ topic.replies }}
     </td>
     <td>
-        <a href="/topic?id={{ topic.topicId }}" class="mb-0">
+        <a href="./topic?id={{ topic.topicId }}" class="mb-0">
             <strong>
                 {{ topic.replyTitle }}
             </strong>
         </a>
 
-        <small> <a href="/user?id={{ topic.topicUserId }}">{{ topic.replyUser }}</a></small>
+        <small> <a href="./user?id={{ topic.topicUserId }}">{{ topic.replyUser }}</a></small>
         <br>
         <small>{{ topic.replyStamp }}</small>
     </td>

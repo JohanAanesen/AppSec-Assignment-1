@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <a href="/category?id={{ categoryTableRow.categoryId }}">
+        <a href="./category?id={{ categoryTableRow.categoryId }}">
             <strong>
                 {{ categoryTableRow.title }}
             </strong>
@@ -14,13 +14,13 @@
         {{ categoryTableRow.topics }}
     </td>
     <td>
-        <a href="/topic?id={{ categoryTableRow.topicId }}" class="mb-0">
+        <a href="./topic?id={{ categoryTableRow.topicId }}" class="mb-0">
             <strong>
                 {{ categoryTableRow.topicTitle }}
             </strong>
         </a>
 
-        <small> <a href="/user?id={{ categoryTableRow.userId }}">{{ categoryTableRow.topicUser }}</a></small>
+        <small> <a href="./user?id={{ categoryTableRow.userId }}">{{ categoryTableRow.topicUser }}</a></small>
         <br>
         <small>{{ categoryTableRow.topicTimestamp }}</small>
     </td>

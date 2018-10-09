@@ -1,14 +1,14 @@
 RewriteEngine On
-RewriteRule ^home/?$                /view/home/
-RewriteRule ^/?$                    /view/home/
-RewriteRule ^search/?$              /view/search/
-RewriteRule ^topic/?$               /view/topic/
-RewriteRule ^category/?$            /view/category/
-RewriteRule ^css/bootstrap.css$     /assets/css/bootstrap.css
-RewriteRule ^css/styles.css$        /assets/css/styles.css
-RewriteRule ^js/bootstrap.js$       /assets/js/bootstrap.js
-RewriteRule ^login/?$               /controller/login.php
-RewriteRule ^logout/?$              /controller/logout.php
-RewriteRule ^register/?$            /controller/register.php
-RewriteRule ^newReply/?$            /controller/newReply.php
-RewriteRule ^newTopic/?$            /controller/newTopic.php
+RewriteRule ^home/?$                ./view/home/
+RewriteRule ^/?$                    ./view/home/
+RewriteRule ^search/?$              ./view/search/
+RewriteRule ^topic/?$               ./view/topic/
+RewriteRule ^category/?$            ./view/category/
+RewriteRule ^css/bootstrap.css$     ./assets/css/bootstrap.css
+RewriteRule ^css/styles.css$        ./assets/css/styles.css
+RewriteRule ^js/bootstrap.js$       ./assets/js/bootstrap.js
+RewriteRule ^login/?$               ./controller/login.php
+RewriteRule ^logout/?$              ./controller/logout.php
+RewriteRule ^register/?$            ./controller/register.php
+RewriteRule ^newReply/?$            ./controller/newReply.php
+RewriteRule ^newTopic/?$            ./controller/newTopic.php

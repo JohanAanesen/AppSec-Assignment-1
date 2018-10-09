@@ -12,13 +12,11 @@ $app = Application::get_instance();
 
 
 list($topic, $user, $content) = $app->requireParameterArray(
-    'topicId',
+    'n_topic',
     'n_user',
     'n_content'
 );
 
-$timestamp = date('Y-m-d H:i:s');
-
-$app->create_newReply($topic, $user, $content, $timestamp);
+$app->create_newReply($topic, $user, $content);
 
 $app->redirect("./topic?id=".$topic);

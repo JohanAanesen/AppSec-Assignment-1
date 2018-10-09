@@ -2,7 +2,7 @@
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
 <div class="container">
-    <small><a href="/">Home</a> / <a href="/category?id={{topic.categoryId}}">{{ topic.categoryTitle }}</a> / {{ topic.topicTitle }}</small>
+    <small><a href="./">Home</a> / <a href="./category?id={{topic.categoryId}}">{{ topic.categoryTitle }}</a> / {{ topic.topicTitle }}</small>
     <div class="row mb-3">
         <div class="col">
 
@@ -45,7 +45,7 @@
         <div class="col-md-12">
             {% for reply in replies %}
             <div class="card">
-                <div class="card-header"><a href="/user?id={{ reply.userId }}">{{ reply.username }}</a></div>
+                <div class="card-header"><a href="./user?id={{ reply.userId }}">{{ reply.username }}</a></div>
                 <div class="card-body">
                     <p>{{ reply.content }}</p>
                     <br>
@@ -57,9 +57,10 @@
         {% if loggedIn == true %}
         <p>Reply:</p>
         <div class="input-group-text">
-            <form action="/newReply?topicId={{ topic.topicId }}" id="n_reply"></form>
-            <input type="hidden" id="n_user" name="n_user" form="n_reply" value="{{user.userId}}">
-            <textarea name="n_content" id="n_content" class="form-control"></textarea>
+            <form action="./newReply?topicId={{ topic.topicId }}" id="n_reply"></form>
+            <input type="hidden" id="n_user" name="n_user" form="n_reply" value="{{ user.userId }}">
+            <input type="hidden" id="n_topic" name="n_topic" form="n_reply" value="{{ topic.topicId }}">
+            <textarea name="n_content" id="n_content" class="form-control" form="n_reply" required></textarea>
             <button class="btn btn-lg btn-outline-success" type="submit" form="n_reply">Send</button>
         </div>
         {% endif %}

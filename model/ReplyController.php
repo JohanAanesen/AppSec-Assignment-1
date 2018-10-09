@@ -57,6 +57,39 @@ class ReplyController extends ITable {
         // NOTE: This class need to check if topic & user ID's exists aswell
     }
 
+    public function create($topicId, $userId, $content) {
+        try {
+            // Set current date
+            $timestamp = date('Y-m-d H:i:s');
+
+            // prepare SQL query and bind parameters
+            $stmt = $this->db->prepare( "INSERT INTO $this->table SET topicId=:topicId, userId=:userId, content=:content, timestamp=:timestamp, editTimestamp=:timestamp2" );
+            $stmt->bindParam( ':topicId', $topicId, PDO::PARAM_STR );
+            $stmt->bindParam( ':userId', $userId, PDO::PARAM_INT );
+            $stmt->bindParam( ':content', $content, PDO::PARAM_STR );
+            $stmt->bindParam( ':timestamp', $timestamp, PDO::PARAM_STR );
+            $stmt->bindParam( ':timestamp2', $timestamp, PDO::PARAM_STR );
+
+
+
+            // Check if execution went through
+            if ($stmt->execute()) {
+                SessionManager::set_flashdata( 'success_msg', 'Reply successfully created!' );
+                Logger::write( sprintf( 'New Reply created in (topic %s)', $topicId ), Logger::SUCCESS );
+                return true;
+            } else {
+                print_r($stmt->errorInfo());
+                SessionManager::set_flashdata( 'error_msg', 'Could not create reply!' );
+                Logger::write( sprintf( 'Attempt on creating topic failed: (IP: %s, topicId: %s)', $_SERVER['REMOTE_ADDR'], $topicId ), Logger::WARNING );
+                return false;
+            }
+        } catch ( PDOException $e ) {
+            SessionManager::set_flashdata( 'error_msg', $e->getMessage() );
+            Logger::write( $e->getMessage(), Logger::ERROR );
+            return false;
+        }
+    }
+
     public function read_repliesFromTopic ($topicId) {
         try {
             $stmt = $this->db->prepare( "SELECT reply.userId, reply.topicId, reply.content, reply.timestamp, reply.editTimestamp, reply.replyId, user.username 
@@ -64,7 +97,7 @@ class ReplyController extends ITable {
                                                     INNER JOIN topic ON reply.topicId = topic.topicId
                                                     INNER JOIN user ON reply.userId = user.userId
                                                     WHERE reply.topicId=:id
-                                                    ORDER BY reply.timestamp DESC" );
+                                                    ORDER BY reply.timestamp ASC" );
 
             $stmt->bindParam( ':id', $topicId, PDO::PARAM_STR );
 

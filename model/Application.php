@@ -111,7 +111,7 @@ class Application {
         }
         else {
             SessionManager::set_flashdata(SessionManager::ERROR, 'Something went wrong');
-            $this->redirect("/");
+            $this->redirect("./");
         }
         return $resultParam;
     }
@@ -188,8 +188,8 @@ class Application {
 	    return $this->replyController->read_latestReplyFromTopic($topicId);
     }
 
-    public function create_newReply($topicId, $userId, $content, $timestamp){
-	    //TODO: $this->replyController->create($topicId, $userId, $content, $timestamp);
+    public function create_newReply($topicId, $userId, $content){
+	    return $this->replyController->create($topicId, $userId, $content);
     }
 
     public function create_newTopic($categoryId, $title, $content, $userId){

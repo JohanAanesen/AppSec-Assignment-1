@@ -210,7 +210,7 @@ class Application {
 
 	public function create_newTopic( $categoryId, $title, $content, $userId ) {
 
-        $content = filter_var($title, FILTER_SANITIZE_STRING);
+        $title = filter_var($title, FILTER_SANITIZE_STRING);
         $content = filter_var($content, FILTER_SANITIZE_STRING);
 
         if ($title === false || $content === false)

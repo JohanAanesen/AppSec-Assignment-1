@@ -188,19 +188,18 @@ class Application {
 
 	public function create_newReply( $topicId, $userId, $content ) {
 
-        $content = filter_input(INPUT_POST, "content", FILTER_SANITIZE_STRING);
+        $content = filter_var($content, FILTER_SANITIZE_STRING);
 
-         if ($content === false)                                         // kommentar
-          { echo "Something is wrong with one or more of your inputs"; } //Får kanskje ikke lov å gjøre echo her?
-
-         else
-        return $this->replyController->create( $topicId, $userId, $content );
+        if ($content === false)                                         // kommentar
+         { echo "Something is wrong with one or more of your inputs"; } //Får kanskje ikke lov å gjøre echo her?
+        else
+            return $this->replyController->create( $topicId, $userId, $content );
 	}
 
 	public function create_newTopic( $categoryId, $title, $content, $userId ) {
 
-        $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
-        $content = filter_input(INPUT_POST, "content", FILTER_SANITIZE_STRING);
+        $content = filter_var($title, FILTER_SANITIZE_STRING);
+        $content = filter_var($content, FILTER_SANITIZE_STRING);
 
         if ($title === false || $content === false)                     // kommentar
         { echo "Something is wrong with one or more of your inputs"; } //Får kanskje ikke lov å gjøre echo her?
